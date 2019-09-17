@@ -15,3 +15,45 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/login', (req, res, next) => {
+  User.findOne({
+    where: {
+      email: req.body.email,
+      password: req.body.password
+    }
+  }).then(user => {
+    if (user) {
+      req.login = user.id
+      req.session.userId = user.id
+      req.json(user)
+    } else {
+      const err = new Error('Incorrect Username or Password')
+      err.status = 401
+      next(err)
+    }
+  })
+})
+
+router.delete('/logout', (req, res, next) => {
+  //req.logout();
+  req.session.destroy(err => {
+    if (err) {
+      return next(err)
+    }
+    res.status(204).end()
+  })
+})
+
+router.get('/me', async (req, res, next) => {
+  try {
+    if (req.user) {
+      res.json(req.user)
+    } else if (req.session.userId) {
+      const user = await User.findByPk(req.session.userId)
+      user ? res.json(user) : res.sendStatus(404)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
