@@ -1,17 +1,36 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Animal} = require('../server/db/models')
+const {
+  User,
+  Animal /*, Category, AnimalCategory */
+} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', admin: true}),
-    User.create({email: 'murphy@email.com', password: '123', admin: false}),
-    User.create({email: 'admin@admin.com', password: 'admin', admin: true}),
-    User.create({email: 'guest@email.com', password: '123', admin: false}),
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      admin: true
+    }),
+    User.create({
+      email: 'murphy@email.com',
+      password: '123',
+      admin: false
+    }),
+    User.create({
+      email: 'admin@admin.com',
+      password: 'admin',
+      admin: true
+    }),
+    User.create({
+      email: 'guest@email.com',
+      password: '123',
+      admin: false
+    }),
     User.create({
       email: 'boyardee@email.com',
       password: 'ravioli',
