@@ -20,7 +20,7 @@ const Animal = db.define('animal', {
     type: Sequelize.TEXT
   },
   photo: {
-    type: Sequelize.String,
+    type: Sequelize.STRING,
     defaultValue: ''
   }
 })
