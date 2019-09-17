@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
+  "name": "beast.co",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "beast.co. Beasts delivered to your door. Everyday.",
   "engines": {
     "node": ">= 7.0.0"
   },
