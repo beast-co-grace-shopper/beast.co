@@ -3,11 +3,11 @@ const db = require('../db')
 
 const Category = db.define('categories.js', {
   category: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-          notEmpty: true
-      }
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   }
 })
 
