@@ -69,8 +69,8 @@ async function seed() {
   console.log(`seeded ${animals.length} animals`)
 
   /*
-  THESE ARE OBJECTS TO SEED FOR ANIMAL CATEGORIES AND CATEGORIES WHEN THEY ARE COMPLETE
-  ** import the models when ready
+  **** THESE ARE OBJECTS TO SEED FOR ANIMAL CATEGORIES AND CATEGORIES WHEN THEY ARE COMPLETE
+  **** import the models when ready
 
   const categories = await Promise.all([
     Category.create({category: "Farm Animals"});
