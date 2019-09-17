@@ -2,6 +2,16 @@ const router = require('express').Router()
 const {User} = require('../db/models')
 module.exports = router
 
+router.use((req, res, next) => {
+  if (!req.session.cart) {
+    req.session.cart = 1
+  } else {
+    req.session.cart++
+  }
+  console.log('req.session.cart', req.session.cart)
+  next()
+})
+
 router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({

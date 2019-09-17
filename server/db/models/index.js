@@ -2,7 +2,14 @@ const User = require('./user')
 const Animal = require('./animal')
 const Category = require('./category')
 const Order = require('./order')
-const Reveiw = require('./review')
+const Review = require('./review')
+
+// const db = require('../db')
+// const AnimalCategories = db.define({})
+// console.log('AnimalCategories', AnimalCategories)
+
+// Animal.belongsToMany(Category, {through: AnimalCategories})
+// Category.belongsToMany(Animal, {through: AnimalCategories})
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -22,5 +29,5 @@ module.exports = {
   Animal,
   Category,
   Order,
-  Reveiw
+  Review
 }
