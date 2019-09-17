@@ -44,3 +44,16 @@ router.delete('/logout', (req, res, next) => {
     res.status(204).end()
   })
 })
+
+router.get('/me', async (req, res, next) => {
+  try {
+    if (req.user) {
+      res.json(req.user)
+    } else if (req.session.userId) {
+      const user = await User.findByPk(req.session.userId)
+      user ? res.json(user) : res.sendStatus(404)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
