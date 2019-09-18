@@ -1,0 +1,51 @@
+
+> beast.co@2.0.0 start-dev /Users/wislek/edu/fullstack/seniors/beast.co
+> NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server
+
+
+> beast.co@2.0.0 build-client-watch /Users/wislek/edu/fullstack/seniors/beast.co
+> webpack -w
+
+
+> beast.co@2.0.0 start-server /Users/wislek/edu/fullstack/seniors/beast.co
+> nodemon server -e html,js,scss --ignore public --ignore client
+
+[33m[nodemon] 1.19.1[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node server`[39m
+Google client ID / secret not found. Skipping Google OAuth.
+Mixing it up on port 8080
+Hash: 738de35f921c7a397ab3
+Version: webpack 4.36.1
+Time: 2200ms
+Built at: 09/18/2019 12:01:08 PM
+                 Asset      Size  Chunks             Chunk Names
+    ./public/bundle.js  1.97 MiB    main  [emitted]  main
+./public/bundle.js.map     2 MiB    main  [emitted]  main
+Entrypoint main = ./public/bundle.js ./public/bundle.js.map
+[0] multi @babel/polyfill ./client/index.js 40 bytes {main} [built]
+[1] ws (ignored) 15 bytes {main} [optional] [built]
+[./client/app.js] 261 bytes {main} [built]
+[./client/history.js] 188 bytes {main} [built]
+[./client/index.js] 515 bytes {main} [built]
+[./client/routes.js] 4.16 KiB {main} [built]
+[./client/socket.js] 166 bytes {main} [built]
+[./client/store/actions/animal-actions.js] 4.31 KiB {main} [built]
+[./client/store/index.js] 610 bytes {main} [built]
+[./client/store/reducers/animal-reducer.js] 1.57 KiB {main} [built]
+[./client/store/user.js] 5.02 KiB {main} [built]
+[./node_modules/webpack/buildin/global.js] (webpack)/buildin/global.js 472 bytes {main} [built]
+[./node_modules/webpack/buildin/harmony-module.js] (webpack)/buildin/harmony-module.js 573 bytes {main} [built]
+    + 512 hidden modules
+
+ERROR in ./client/index.js
+Module not found: Error: Can't resolve 'style-loader' in '/Users/wislek/edu/fullstack/seniors/beast.co'
+ @ ./client/index.js 1:0-46
+ @ multi @babel/polyfill ./client/index.js
+A socket connection to the server has been made: CyuoRsmDAFhSpERWAAAA
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server`[39m
+Google client ID / secret not found. Skipping Google OAuth.
+Mixing it up on port 8080
+A socket connection to the server has been made: cS2NJf3hOewsUmvDAAAA
