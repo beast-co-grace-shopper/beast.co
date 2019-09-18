@@ -5,6 +5,8 @@ export const SET_ANIMALS = 'SET_ANIMALS'
 export const ADD_ANIMAL = 'ADD_ANIMAL'
 export const DESTROY_ANIMAL = 'DESTROY_ANIMAL'
 export const MODIFY_ANIMAL = 'MODIFY_ANIMAL'
+export const SEARCH_ANIMALS = 'SEARCH_ANIMALS'
+export const FILTER_CATEGORIES = 'FILTER_CATEGORIES'
 
 // --[ Action Creators ]---------------------------------------------------------
 export const setSelectedAnimal = selectedAnimal => ({
@@ -32,12 +34,56 @@ export const modifyAnimal = animal => ({
   animal
 })
 
+export const searchAnimals = animals => ({
+  type: SEARCH_ANIMALS,
+  animals
+})
+
+export const filterCategories = animals => ({
+  type: FILTER_CATEGORIES,
+  animals
+})
+
 // --[ Thunk Creators ]----------------------------------------------------------
 export const fetchAnimals = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/animals')
     dispatch(setAnimals(data))
   } catch (error) {
+    console.error('Failed to GET /api/animals')
+  }
+}
+
+export const searchForAnimals = search => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/animals')
+    let searchResult = data.filter(animal => animal.name === search)
+    dispatch(searchAnimals(searchResult))
+  } catch (error) {
+    console.log(error)
+    console.error('Failed to GET /api/animals')
+  }
+}
+
+export const filterAnimalCategories = category => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/animals')
+    console.log('all animals ', data)
+    let searchResult = data.filter(function(animal) {
+      let matchedCategories = animal.categories.filter(
+        currCategory => currCategory.category === category
+      )
+
+      if (matchedCategories.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    })
+    console.log('filtered categories ', searchResult)
+    dispatch(filterCategories(searchResult))
+  } catch (error) {
+    console.log(error)
     console.error('Failed to GET /api/animals')
   }
 }

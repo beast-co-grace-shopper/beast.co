@@ -2,6 +2,8 @@ import {
   SET_ANIMALS,
   ADD_ANIMAL,
   DESTROY_ANIMAL,
+  SEARCH_ANIMALS,
+  FILTER_CATEGORIES,
   MODIFY_ANIMAL
 } from '../actions/animal-actions'
 
@@ -14,6 +16,14 @@ const animalReducer = (prevState = [], action) => {
 
     case ADD_ANIMAL: {
       return [...prevState, action.animal]
+    }
+
+    case SEARCH_ANIMALS: {
+      return action.animals
+    }
+
+    case FILTER_CATEGORIES: {
+      return action.animals
     }
 
     case DESTROY_ANIMAL: {
