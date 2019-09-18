@@ -1,13 +1,27 @@
 import React from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
 
 const AnimalCard = ({animal}) => {
   return (
-    <div>
-      <img src={animal.photo} alt={`Image of ${animal.name}`} />
-      <h1>{animal.name}</h1>
-      <p>Animal review...</p>
-      <p>Price: {animal.cost}</p>
-    </div>
+    <Container className="card">
+      <Row>
+        <Col md={4}>
+          <Image
+            src="/images/320px-Rhino.svg.png"
+            style={{height: '100px', width: '100px'}}
+            fluid
+          />
+        </Col>
+        <Col md={8}>
+          <h1>{animal.name}</h1>
+          <p>Animal review...</p>
+          <p>Price: ${animal.cost}</p>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
