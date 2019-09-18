@@ -4,7 +4,8 @@ import {
   DESTROY_ANIMAL,
   SEARCH_ANIMALS,
   FILTER_CATEGORIES,
-  MODIFY_ANIMAL
+  MODIFY_ANIMAL,
+  SET_SELECTED_ANIMAL
 } from '../actions/animal-actions'
 
 // --[ Animal Reducer ]-----------------------------------------------------------
@@ -28,6 +29,10 @@ const animalReducer = (prevState = [], action) => {
 
     case DESTROY_ANIMAL: {
       return prevState.filter(({id}) => id !== action.animalId)
+    }
+
+    case SET_SELECTED_ANIMAL: {
+      return action.animals
     }
 
     // case MODIFY_ANIMAL: {
