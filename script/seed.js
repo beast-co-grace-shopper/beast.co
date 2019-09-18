@@ -3,7 +3,9 @@
 const db = require('../server/db')
 const {
   User,
-  Animal /*, Category, AnimalCategory */
+  Animal,
+  Category,
+  AnimalCategories
 } = require('../server/db/models')
 
 async function seed() {
@@ -68,35 +70,28 @@ async function seed() {
   ])
   console.log(`seeded ${animals.length} animals`)
 
-  /*
-  **** THESE ARE OBJECTS TO SEED FOR ANIMAL CATEGORIES AND CATEGORIES WHEN THEY ARE COMPLETE
-  **** import the models when ready
-
   const categories = await Promise.all([
-    Category.create({category: "Farm Animals"});
-    Category.create({category: "Large"});
-    Category.create({category: "Intelligent"});
-    Category.create({category: "exotic"});
-    Category.create({category: "Bird"});
-    }),
+    Category.create({category: 'Farm Animals'}),
+    Category.create({category: 'Large'}),
+    Category.create({category: 'Intelligent'}),
+    Category.create({category: 'exotic'}),
+    Category.create({category: 'Bird'})
   ])
-  
+
   console.log(`seeded ${categories.length} categories`)
 
   const animalCategories = await Promise.all([
-    AnimalCategory.create({categoryId:1,animalId:1});
-    AnimalCategory.create({categoryId:2,animalId:2});
-    AnimalCategory.create({categoryId:3,animalId:1});
-    AnimalCategory.create({categoryId:3,animalId:2});
-    AnimalCategory.create({categoryId:4,animalId:2});
-    AnimalCategory.create({categoryId:5,animalId:3});
-    AnimalCategory.create({categoryId:3,animalId:4});
-    AnimalCategory.create({categoryId:4,animalId:4});
+    AnimalCategories.create({categoryId: 1, animalId: 1}),
+    AnimalCategories.create({categoryId: 2, animalId: 2}),
+    AnimalCategories.create({categoryId: 3, animalId: 1}),
+    AnimalCategories.create({categoryId: 3, animalId: 2}),
+    AnimalCategories.create({categoryId: 4, animalId: 2}),
+    AnimalCategories.create({categoryId: 5, animalId: 3}),
+    AnimalCategories.create({categoryId: 3, animalId: 4}),
+    AnimalCategories.create({categoryId: 4, animalId: 4})
   ])
 
   console.log(`seeded ${animalCategories.length} animal categories`)
-
-  */
 
   console.log(`seeded successfully`)
 }
