@@ -6,11 +6,11 @@ class HttpError extends Error {
     this.status = status
   }
 
-  middleware = () => {
-    return (req, res, next) => {
-      next(this)
-    }
-  }
+  // middleware = () => {
+  //   return (req, res, next) => {
+  //     next(this)
+  //   }
+  // }
 }
 
 module.exports = HttpError
