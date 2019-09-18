@@ -18,6 +18,20 @@ const Review = db.define('review', {
       min: 0,
       max: 5
     }
+  },
+  userId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  animalId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   }
 })
 
