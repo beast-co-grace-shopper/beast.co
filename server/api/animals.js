@@ -48,8 +48,12 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', (req, res, next) => {
-  res.status(200).json(req.Animal)
+router.get('/:id', async (req, res, next) => {
+  try {
+    res.send(await Animal.findByPk(req.params.id))
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 router.put('/:id', async (req, res, next) => {
