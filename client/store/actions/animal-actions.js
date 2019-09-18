@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const SET_SELECTED_ANIMAL = 'SET_SELECTED_ANIMAL'
 export const SET_ANIMALS = 'SET_ANIMALS'
 export const ADD_ANIMAL = 'ADD_ANIMAL'
@@ -29,3 +31,36 @@ export const modifyAnimal = animal => ({
   type: MODIFY_ANIMAL,
   animal
 })
+
+// --[ Thunk Creators ]----------------------------------------------------------
+export const fetchAnimals = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/animals')
+    dispatch(setAnimals(data))
+  } catch (error) {
+    console.error('Failed to GET /api/animals')
+  }
+}
+
+// export const postAnimal = (newAnimal, history) =>
+//   async (dispatch) => {
+//     try {
+//       const response = await axios.post('/api/animals', newAnimal);
+//       const createdAnimal = response.data;
+
+//       dispatch(addAnimal(createdAnimal));
+//       history.push(`/animals/${createdAnimal.id}`);
+//     }
+//     catch (error) {
+//       console.error('Failed to POST /api/animals');
+//     }
+//   };
+
+export const deleteAnimal = animalId => async dispatch => {
+  try {
+    await axios.delete(`/api/animals/${animalId}`)
+    dispatch(destroyAnimal(animalId))
+  } catch (error) {
+    console.error('Failed to DELETE /api/animals/:animalId')
+  }
+}
