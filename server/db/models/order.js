@@ -10,25 +10,18 @@ const Order = db.define('order', {
       isDate: true
     }
   },
-  totalCost: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  itemTotal: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
   deliveryType: {
     type: Sequelize.STRING,
     defaultValue: 'Standard',
     validate: {
       isIn: [['Standard', 'Express', 'Overnight']]
+    }
+  },
+  userId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true
     }
   }
 })
