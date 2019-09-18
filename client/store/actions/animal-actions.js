@@ -54,10 +54,16 @@ export const fetchAnimals = () => async dispatch => {
   }
 }
 
-export const searchForAnimals = search => async dispatch => {
+export const searchForAnimals = searchFor => async dispatch => {
   try {
     const {data} = await axios.get('/api/animals')
-    let searchResult = data.filter(animal => animal.name === search)
+    let searchResult = data.filter(animal => {
+      const name = animal.name.toLowerCase()
+      const search = searchFor.toLowerCase()
+
+      return name.includes(search)
+    })
+
     dispatch(searchAnimals(searchResult))
   } catch (error) {
     console.log(error)
@@ -67,6 +73,7 @@ export const searchForAnimals = search => async dispatch => {
 
 export const filterAnimalCategories = category => async dispatch => {
   try {
+    console.log('looking for category: ', category)
     const {data} = await axios.get('/api/animals')
     console.log('all animals ', data)
     let searchResult = data.filter(function(animal) {
