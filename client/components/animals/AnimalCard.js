@@ -8,14 +8,14 @@ const AnimalCard = ({animal}) => {
   return (
     <Container className="card">
       <Row>
-        <Col md={4}>
+        <Col>
           <Image
             src="/images/320px-Rhino.svg.png"
             style={{height: '100px', width: '100px'}}
             fluid
           />
         </Col>
-        <Col md={8}>
+        <Col>
           <h1>{animal.name}</h1>
           <p>Animal review...</p>
           <p>Price: ${animal.cost}</p>
