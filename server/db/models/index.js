@@ -13,15 +13,14 @@ const AnimalOrder = require('./animalOrder')
 //an animal can belong in many user carts
 
 User.hasOne(Cart)
-Cart.belongsToOne(User)
-Cart.hasMany(Animal)
-Animal.belongsToMany(Cart)
+Cart.belongsTo(User)
+Animal.hasMany(Cart)
 
 //a review instance belongs to one user
 //a user instance has many reviews
 //an animal instance has many reviews
 
-Review.belongsToOne(User)
+Review.belongsTo(User)
 User.hasMany(Review)
 Animal.hasMany(Review)
 
@@ -29,9 +28,8 @@ Animal.hasMany(Review)
 //a user instance has many orders
 //an order instance has many animals
 
-Order.belongsToOne(User)
+Order.belongsTo(User)
 User.hasMany(Order)
-Order.hasMany(Animal, {through: 'animal_order', foreignKey: 'animalId'})
 
 //an animal belongs to many categories
 //a category belongs to many animals
@@ -40,8 +38,8 @@ Category.belongsToMany(Animal, {through: AnimalCategories})
 
 //an animal belongs to many orders
 //an order belongs to many animals
-Animal.belongsToMany(Order, {through: AnimalOrder})
-Order.hasMany(Animal, {though: AnimalOrder})
+
+Order.belongsToMany(Animal, {through: AnimalOrder})
 
 /**
  * If we had any associations to make, this would be a great place to put them!
