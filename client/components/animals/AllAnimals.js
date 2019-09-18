@@ -1,16 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
-import {
-  fetchAnimals,
-  filterAnimalCategories
-} from '../../store/actions/animal-actions'
+import {fetchAnimals} from '../../store/actions/animal-actions'
 import AnimalCard from './AnimalCard'
 
 class AllAnimals extends Component {
   componentDidMount() {
     this.props.fetchAnimals()
-    this.props.filterAnimalCategories('Intelligent')
   }
 
   render() {
@@ -36,8 +32,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchAnimals: () => dispatch(fetchAnimals()),
-  filterAnimalCategories: search => dispatch(filterAnimalCategories(search))
+  fetchAnimals: () => dispatch(fetchAnimals())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllAnimals)
