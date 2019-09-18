@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Animal} = require('../db/models')
+const {Animal, Category} = require('../db/models')
 const HttpError = require('../utils/HttpError')
 
 module.exports = router
@@ -22,7 +22,9 @@ router.param('id', async (req, res, next, id) => {
 // demonstration of use of static model methods; see db/index.js...
 router.get('/', async (req, res, next) => {
   try {
-    const allAnimals = await Animal.findAll()
+    const allAnimals = await Animal.findAll({
+      include: [{model: Category}]
+    })
     if (allAnimals) {
       res.status(201).json(allAnimals)
     } else {
