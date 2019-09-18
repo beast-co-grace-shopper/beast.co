@@ -14,7 +14,8 @@ const AnimalOrder = require('./animalOrder')
 
 User.hasOne(Cart)
 Cart.belongsTo(User)
-Animal.hasMany(Cart)
+Cart.belongsTo(Animal)
+//Animal.hasMany(Cart)
 
 //a review instance belongs to one user
 //a user instance has many reviews
