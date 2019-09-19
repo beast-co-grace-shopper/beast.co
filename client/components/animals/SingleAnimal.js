@@ -21,7 +21,7 @@ class SingleAnimal extends Component {
   componentDidMount() {
     this.props.fetchSelectedAnimal(this.props.match.params.id)
     if (this.props.user) {
-      this.props.fetchUserCart(this.props.user)
+      //this.props.fetchUserCart(this.props.user);
     }
   }
 
@@ -43,7 +43,6 @@ class SingleAnimal extends Component {
   }
 
   render() {
-    console.log('props', this.props)
     this.updateIfAnimalIsInCart(this.props.user)
     return (
       <div>

@@ -2,13 +2,38 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Order = db.define('order', {
-  purchaseDate: {
-    type: Sequelize.DATE,
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
     allowNull: false,
     validate: {
-      notEmpty: true,
-      isDate: true
+      isEmail: true
     }
+  },
+  address: {
+    type: Sequelize.STRING
+  },
+  address2: {
+    type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING
+  },
+  state: {
+    type: Sequelize.STRING
+  },
+  zip: {
+    type: Sequelize.STRING
+  },
+  purchaseDate: {
+    type: Sequelize.DATE,
+    defaultValue: new Date()
   },
   deliveryType: {
     type: Sequelize.STRING,
