@@ -43,7 +43,7 @@ class Navigation extends Component {
           <LinkContainer to="/home">
             <Navbar.Brand>
               <img
-                src="/images/beast.co-logo.jpg"
+                src="/images/beastCo.jpg"
                 width="60"
                 height="50"
                 className="d-inline-block align-center"
