@@ -9,3 +9,4 @@ export {Login, Signup} from './auth-form'
 
 export {default as AllAnimals} from './animals/AllAnimals'
 export {default as Cart} from './Cart/Cart'
+export {default as AddressForm} from './Cart/AddressForm'
