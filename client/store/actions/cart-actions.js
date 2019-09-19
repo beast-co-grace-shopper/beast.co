@@ -60,7 +60,8 @@ export const removeAnimalFromCart = (animal, user) => async dispatch => {
 
 export const fetchUserCart = user => async dispatch => {
   try {
-    const {data} = await axios.get('api/cart/', user)
+    console.log('user got to the thunk ', user)
+    const {data} = await axios.get('/api/cart', user)
     dispatch(fetchCart(data))
   } catch (error) {
     console.log(error)
@@ -87,7 +88,7 @@ export const updateAnimalInCart = (
       userId: user.id,
       quantity: quantity
     }
-    const {data} = await axios.put('api/cart/', updateAnimal)
+    const {data} = await axios.put('/api/cart', updateAnimal)
     dispatch(updateAnimal(data))
   } catch (error) {
     console.log(error)
