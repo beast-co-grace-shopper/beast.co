@@ -9,15 +9,10 @@ import Image from 'react-bootstrap/Image'
 import {fetchSelectedAnimal} from '../../store/actions/animal-actions'
 
 class SingleAnimal extends Component {
-  constructor(props) {
-    super()
-    this.props = {
-      ...props
-    }
-  }
-
   componentDidMount() {
-    this.props.fetchSelectedAnimal(this.props.selectedAnimalId)
+    if (this.props.selectedAnimalId) {
+      this.props.fetchSelectedAnimal(this.props.selectedAnimalId)
+    }
   }
 
   render() {
