@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Link, NavLink} from 'react-router-dom'
 
 import {fetchAnimals} from '../../store/actions/animal-actions'
 import AnimalCard from './AnimalCard'
@@ -18,7 +19,9 @@ class AllAnimals extends Component {
         <div>
           {animals && animals.length
             ? animals.map(animal => (
-                <AnimalCard key={animal.id} animal={animal} />
+                <Link to={`/animal/${animal.id}`} key={animal.id}>
+                  <AnimalCard animal={animal} />
+                </Link>
               ))
             : 'There are no animals in the database...'}
         </div>

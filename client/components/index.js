@@ -8,3 +8,4 @@ export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
 
 export {default as AllAnimals} from './animals/AllAnimals'
+export {default as SingleAnimal} from './animals/SingleAnimal'

@@ -32,7 +32,7 @@ const animalReducer = (prevState = [], action) => {
     }
 
     case SET_SELECTED_ANIMAL: {
-      return action.animals
+      return [action.selectedAnimal]
     }
 
     // case MODIFY_ANIMAL: {
