@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 
 import {fetchSelectedAnimal} from '../../store/actions/animal-actions'
+import {fetchUserCart} from '../../store/actions/cart-actions'
 
 class SingleAnimal extends Component {
   constructor() {
@@ -19,6 +20,9 @@ class SingleAnimal extends Component {
 
   componentDidMount() {
     this.props.fetchSelectedAnimal(this.props.match.params.id)
+    if (this.props.user) {
+      this.props.fetchUserCart(this.props.user)
+    }
   }
 
   changeQuantity(event) {
@@ -31,9 +35,16 @@ class SingleAnimal extends Component {
 
   //this.props.user returns the user info
 
-  updateIfAnimalIsInCart(userId) {}
+  updateIfAnimalIsInCart(user) {
+    if (user) {
+      console.log(user)
+      //
+    }
+  }
 
   render() {
+    console.log('props', this.props)
+    this.updateIfAnimalIsInCart(this.props.user)
     return (
       <div>
         {this.props.animals && this.props.animals.length === 1 ? (
@@ -102,13 +113,15 @@ class SingleAnimal extends Component {
 
 const mapStateToProps = state => {
   return {
+    cart: state.cart,
     animals: state.animals,
     user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchSelectedAnimal: animalId => dispatch(fetchSelectedAnimal(animalId))
+  fetchSelectedAnimal: animalId => dispatch(fetchSelectedAnimal(animalId)),
+  fetchUserCart: userId => dispatch(fetchUserCart(userId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleAnimal)
