@@ -4,6 +4,15 @@ const HttpError = require('../utils/HttpError')
 
 module.exports = router
 
+router.use((req, res, next) => {
+  if (!req.session.counter) {
+    req.session.counter = 0
+  }
+  req.session.counter++
+  console.log('req.session', req.session)
+  next()
+})
+
 router.param('id', async (req, res, next, id) => {
   try {
     const animal = await Animal.findByPk(id)

@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
+import {withRouter} from 'react-router-dom'
 
 import {
   logout,
@@ -148,7 +149,7 @@ const mapDispatch = dispatch => ({
   searchForAnimals: animal => dispatch(searchForAnimals(animal))
 })
 
-export default connect(mapState, mapDispatch)(Navigation)
+export default withRouter(connect(mapState, mapDispatch)(Navigation))
 
 /**
  * PROP TYPES
