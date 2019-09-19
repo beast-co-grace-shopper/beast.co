@@ -30,7 +30,25 @@ const User = db.define('user', {
   googleId: {
     type: Sequelize.STRING
   },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
   address: {
+    type: Sequelize.STRING
+  },
+  address2: {
+    type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING
+  },
+  state: {
+    type: Sequelize.STRING
+  },
+  zip: {
     type: Sequelize.STRING
   },
   picture: {
@@ -39,6 +57,9 @@ const User = db.define('user', {
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  sessionId: {
+    type: Sequelize.STRING
   }
 })
 
