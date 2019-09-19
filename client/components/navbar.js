@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 // import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Link, NavLink} from 'react-router-dom'
+import {LinkContainer} from 'react-router-bootstrap'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
@@ -19,12 +19,14 @@ import {
 class Navigation extends Component {
   componentDidMount() {
     this.props.fetchCategories()
+    console.log('Navigation: my props are: ', this.props)
   }
 
   handleSearch = event => {
     event.preventDefault()
     console.log('trying to search for: ', event.target.searchFor.value)
     this.props.searchForAnimals(event.target.searchFor.value)
+    this.props.history.push('/animals')
   }
 
   handleCategorize = eventKey => {
@@ -36,66 +38,97 @@ class Navigation extends Component {
     const categories = this.props.categories
 
     return (
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/home">beast.co LOGO</Navbar.Brand>
-        <Nav className="justify-content-end">
-          <Nav.Item>
-            <Nav.Link href="/home">HOME</Nav.Link>
-          </Nav.Item>
-
-          <Nav.Item>
-            <Nav.Link href="/animals">ANIMALS</Nav.Link>
-          </Nav.Item>
-
-          <Nav.Item>
-            <Dropdown name="category" onSelect={this.handleCategorize}>
-              <Dropdown.Toggle variant="primary">All</Dropdown.Toggle>
-              <Dropdown.Menu>
-                {categories &&
-                  categories.map(category => (
-                    <Dropdown.Item
-                      key={category.id}
-                      eventKey={category.category}
-                    >
-                      {category.category}
-                    </Dropdown.Item>
-                  ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Nav.Item>
-
-          <Nav.Item>
-            <Form onSubmit={this.handleSearch} inline>
-              <FormControl
-                className="mr-sm-2"
-                name="searchFor"
-                placeholder="Search"
-                type="text"
+      <div>
+        <Navbar bg="dark" variant="dark">
+          <LinkContainer to="/home">
+            <Navbar.Brand>
+              <img
+                src="/images/beast.co-logo.jpg"
+                width="60"
+                height="50"
+                className="d-inline-block align-center"
+                alt="beast.co logo"
               />
-              <Button type="submit" variant="outline-info">
-                Search
-              </Button>
-            </Form>
-          </Nav.Item>
-
-          {this.props.isLoggedIn ? (
+              {'beast.co'}
+            </Navbar.Brand>
+          </LinkContainer>
+          <Nav fill className="justify-content-end">
             <Nav.Item>
-              <Nav.Link href="#" onSelect={this.props.handleClick}>
-                LOGOUT
-              </Nav.Link>
+              <LinkContainer to="/home">
+                <Nav.Link>HOME</Nav.Link>
+              </LinkContainer>
             </Nav.Item>
-          ) : (
-            <div>
+
+            <Nav.Item>
+              <LinkContainer to="/animals">
+                <Nav.Link>ANIMALS</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Dropdown name="category" onSelect={this.handleCategorize}>
+                <Dropdown.Toggle variant="primary">All</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {categories &&
+                    categories.map(category => (
+                      <Dropdown.Item
+                        key={category.id}
+                        eventKey={category.category}
+                      >
+                        {category.category}
+                      </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Form onSubmit={this.handleSearch} inline>
+                <FormControl
+                  className="mr-sm-2"
+                  name="searchFor"
+                  placeholder="Search"
+                  type="text"
+                />
+                <Button type="submit" variant="outline-info">
+                  Search
+                </Button>
+              </Form>
+            </Nav.Item>
+
+            {this.props.isLoggedIn ? (
               <Nav.Item>
-                <Nav.Link href="/login">LOGIN</Nav.Link>
+                <LinkContainer to="#">
+                  <Nav.Link onSelect={this.props.handleClick}>LOGOUT</Nav.Link>
+                </LinkContainer>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link href="/signup">SIGN UP</Nav.Link>
-              </Nav.Item>
-            </div>
-          )}
-        </Nav>
-      </Navbar>
+            ) : (
+              <div>
+                <Nav.Item>
+                  <LinkContainer to="/login">
+                    <Nav.Link>LOGIN</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
+                  <LinkContainer to="/signup">
+                    <Nav.Link>SIGN UP</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
+              </div>
+            )}
+          </Nav>
+        </Navbar>
+        <Navbar bg="dark" variant="dark">
+          <Nav fill className="justify-content-end">
+            <Nav.Item>
+              <Nav.Link>BIG</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link>BIGGER</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Navbar>
+      </div>
     )
   }
 }

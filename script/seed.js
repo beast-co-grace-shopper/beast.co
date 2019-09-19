@@ -1,10 +1,13 @@
 'use strict'
 
+const chance = require('chance')(999)
+
 const db = require('../server/db')
 const {
   User,
   Animal,
   Category,
+  Cart,
   AnimalCategories
 } = require('../server/db/models')
 
@@ -13,26 +16,58 @@ async function seed() {
   console.log('db synced!')
 
   await User.create({
+    firstName: chance.first(),
+    lastName: chance.last(),
+    address: chance.address(),
+    address2: 'Apt. 1',
+    city: chance.city(),
+    state: chance.state(),
+    zip: chance.zip({plusfour: true}),
     email: 'cody@email.com',
     password: '123',
     admin: true
   })
   await User.create({
+    firstName: chance.first(),
+    lastName: chance.last(),
+    address: chance.address(),
+    city: chance.city(),
+    state: chance.state(),
+    zip: chance.zip({plusfour: true}),
     email: 'murphy@email.com',
     password: '123',
     admin: false
   })
   await User.create({
+    firstName: chance.first(),
+    lastName: chance.last(),
+    address: chance.address(),
+    address2: 'Apt. 12B',
+    city: chance.city(),
+    state: chance.state(),
+    zip: chance.zip({plusfour: true}),
     email: 'admin@admin.com',
     password: 'admin',
     admin: true
   })
   await User.create({
+    firstName: chance.first(),
+    lastName: chance.last(),
+    address: chance.address(),
+    city: chance.city(),
+    state: chance.state(),
+    zip: chance.zip(),
     email: 'guest@email.com',
     password: '123',
     admin: false
   })
   await User.create({
+    firstName: chance.first(),
+    lastName: chance.last(),
+    address: chance.address(),
+    city: chance.city(),
+    state: chance.state(),
+    zip: chance.zip(),
     email: 'boyardee@email.com',
     password: 'ravioli',
     admin: false
@@ -82,6 +117,17 @@ async function seed() {
   ])
 
   console.log(`seeded ${animalCategories.length} animal categories`)
+
+  await Cart.create({
+    quantity: 2,
+    userId: 2,
+    animalId: 2
+  })
+  await Cart.create({
+    quantity: 4,
+    userId: 2,
+    animalId: 3
+  })
 
   console.log(`seeded successfully`)
 }
