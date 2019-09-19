@@ -9,8 +9,24 @@ import Image from 'react-bootstrap/Image'
 import {fetchSelectedAnimal} from '../../store/actions/animal-actions'
 
 class SingleAnimal extends Component {
+  constructor() {
+    super()
+    this.state = {
+      Quantity: 0,
+      Price: '$0'
+    }
+  }
+
   componentDidMount() {
     this.props.fetchSelectedAnimal(this.props.match.params.id)
+  }
+
+  changeQuantity(event) {
+    //console.log(event.target.value);
+    let Price =
+      '$' +
+      Math.floor(event.target.value * this.props.animals[0].cost * 100) / 100
+    this.setState({...this.state, Quantity: event.target.value, Price})
   }
 
   render() {
@@ -32,9 +48,36 @@ class SingleAnimal extends Component {
                 <p>Price: ${this.props.animals[0].cost}</p>
               </Col>
               <Col>
-                <p>$0</p>
-                <p>Quantity: 0</p>
-                <Button>ADD TO CART</Button>
+                <Row>
+                  <Col>
+                    <p>Price:</p>
+                  </Col>
+                  <Col>
+                    <input
+                      type="text"
+                      disabled={true}
+                      value={this.state.Price}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <p>Quantity:</p>
+                  </Col>
+                  <Col>
+                    <input
+                      type="number"
+                      onChange={event => {
+                        this.changeQuantity(event)
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button>ADD TO CART</Button>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Container>
