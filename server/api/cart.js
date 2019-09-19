@@ -4,6 +4,10 @@ module.exports = router
 
 router.get('/:id', async (req, res, next) => {
   try {
+    if (req.user.id !== Number(req.params.id)) {
+      console.log('req.user', req.user)
+      return res.sendStatus(401)
+    }
     const cart = await Cart.findAll({
       where: {userId: req.params.id},
       include: [{model: Animal}, {model: User}]
