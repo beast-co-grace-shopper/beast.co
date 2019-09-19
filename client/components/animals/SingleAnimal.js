@@ -29,6 +29,10 @@ class SingleAnimal extends Component {
     this.setState({...this.state, Quantity: event.target.value, Price})
   }
 
+  //this.props.user returns the user info
+
+  updateIfAnimalIsInCart(userId) {}
+
   render() {
     return (
       <div>
@@ -98,7 +102,8 @@ class SingleAnimal extends Component {
 
 const mapStateToProps = state => {
   return {
-    animals: state.animals
+    animals: state.animals,
+    user: state.user
   }
 }
 
