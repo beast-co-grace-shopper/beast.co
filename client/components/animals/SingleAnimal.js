@@ -44,7 +44,14 @@ class SingleAnimal extends Component {
               </Col>
               <Col>
                 <h1>{this.props.animals[0].name}</h1>
-                <p>Description: {this.props.animals[0].description}</p>
+                <div>
+                  {this.props.animals[0].description &&
+                  this.props.animals[0].description.length > 0 ? (
+                    <p>Description: {this.props.animals[0].description}</p>
+                  ) : (
+                    ''
+                  )}
+                </div>
                 <p>Price: ${this.props.animals[0].cost}</p>
               </Col>
               <Col>
