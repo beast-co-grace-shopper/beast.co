@@ -16,7 +16,7 @@ class SingleAnimal extends Component {
   render() {
     return (
       <div>
-        {this.props.animals && this.props.animals.length > 0 ? (
+        {this.props.animals && this.props.animals.length === 1 ? (
           <Container className="card">
             <Row>
               <Col>
@@ -39,7 +39,7 @@ class SingleAnimal extends Component {
             </Row>
           </Container>
         ) : (
-          'This animal could not be captured...'
+          ''
         )}
       </div>
     )

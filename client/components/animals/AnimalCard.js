@@ -10,7 +10,7 @@ const AnimalCard = ({animal}) => {
       <Row>
         <Col>
           <Image
-            src="/images/320px-Rhino.svg.png"
+            src={animal.photo}
             style={{height: '100px', width: '100px'}}
             fluid
           />
