@@ -30,13 +30,12 @@ class Routes extends Component {
             <AllAnimals {...routeProps} animals={this.props.animals} />
           )}
         />
+        <Route path="/cart" component={Cart} />
         <Route path="/animal/:id" component={SingleAnimal} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
-            <Route path="/cart" component={Cart} />
-            <Route path="/animals" component={AllAnimals} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
