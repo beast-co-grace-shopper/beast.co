@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import SingleAnimal from './components/animals/SingleAnimal'
 import {Login, Signup, UserHome, AllAnimals, Cart} from './components'
 import {me, fetchAnimals} from './store'
+import {fetchUserCart} from './store/actions/cart-actions'
 
 //replace cart with all animals
 
@@ -11,14 +12,32 @@ import {me, fetchAnimals} from './store'
  * COMPONENT
  */
 class Routes extends Component {
+  constructor(props) {
+    super(props)
+    this.CartUpdated = false
+  }
+
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchAnimals()
   }
 
+  updateCart = user => {
+    if (user.id) {
+      console.log('getting cart')
+      if (!this.CartUpdated) {
+        this.props.fetchUserCart(user)
+      }
+    }
+  }
+
   render() {
     const {isLoggedIn} = this.props
 
+    if (this.props.user.id && !this.UpdatedCart) {
+      this.updateCart(this.props.user)
+      this.UpdatedCart = true
+    }
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -52,12 +71,15 @@ const mapState = state => ({
   // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
   // Otherwise, state.user will be an empty object, and state.user.id will be falsey
   isLoggedIn: !!state.user.id,
-  animals: state.animals
+  user: state.user,
+  animals: state.animals,
+  cart: state.cart
 })
 
 const mapDispatch = dispatch => ({
   loadInitialData: () => dispatch(me()),
-  fetchAnimals: () => dispatch(fetchAnimals())
+  fetchAnimals: () => dispatch(fetchAnimals()),
+  fetchUserCart: userId => dispatch(fetchUserCart(userId))
 })
 
 // The `withRouter` wrapper makes sure that updates are not blocked
