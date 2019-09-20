@@ -84,7 +84,7 @@ router.delete('/', async (req, res, next) => {
 
 router.delete('/all', async (req, res, next) => {
   try {
-    const userId = req.body.animalId
+    const userId = req.body.userId
     await Cart.destroy({where: {userId}})
     res.send('Cart Cleared!')
   } catch (err) {
