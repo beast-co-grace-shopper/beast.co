@@ -44,34 +44,20 @@ class Navigation extends Component {
         <Container>
           <Row>
             <Col>
-              <LinkContainer to="/home">
-                <Navbar.Brand>
-                  <img
-                    src="/images/beastCo.png"
-                    width="60"
-                    height="50"
-                    className="d-inline-block align-center"
-                    alt="beast.co logo"
-                  />
-                  {'beast.co'}
-                </Navbar.Brand>
-              </LinkContainer>
-              <Nav fill className="justify-content-end">
-                <Nav.Item>
-                  <LinkContainer to="/home">
-                    <Navbar.Brand>
-                      <img
-                        src="/images/beastCo.jpg"
-                        width="100"
-                        height="90"
-                        className="d-inline-block align-center"
-                        alt="beast.co logo"
-                      />
-                      {'beast.co'}
-                    </Navbar.Brand>
-                  </LinkContainer>
-                </Nav.Item>
-              </Nav>
+              <Nav.Item>
+                <LinkContainer to="/home">
+                  <Navbar.Brand>
+                    <img
+                      src="/images/beastCo.png"
+                      width="100"
+                      height="90"
+                      className="d-inline-block align-center"
+                      alt="beast.co logo"
+                    />
+                    {'beast.co'}
+                  </Navbar.Brand>
+                </LinkContainer>
+              </Nav.Item>
             </Col>
 
             <Col sm="8">
