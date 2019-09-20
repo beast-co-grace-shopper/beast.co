@@ -25,8 +25,7 @@ class SingleAnimal extends Component {
     let animal = this.props.animals.filter(
       CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
     )
-    let Price =
-      '$' + Math.floor(event.target.value * animal[0].cost * 100) / 100
+    let Price = '$' + (event.target.value * animal[0].cost).toFixed(2)
     this.setState({...this.state, Quantity: event.target.value, Price})
   }
 

@@ -42,19 +42,20 @@ Category.belongsToMany(Animal, {through: AnimalCategories})
 
 Order.belongsToMany(Animal, {through: AnimalOrder})
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
+// --[ Helper Methods Requiring Multiple Models ]------------------------------
+Cart.findUsersCart = function(userId) {
+  return Cart.findAll({
+    where: {userId: userId},
+    include: [{model: Animal}, {model: User}]
+  })
+}
 
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
+Cart.destroyUsersCart = function(userId) {
+  return Cart.destroy({
+    where: {userId: userId}
+  })
+}
+
 module.exports = {
   User,
   Animal,
