@@ -6,16 +6,19 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 
-import {fetchSelectedAnimal} from '../../store/actions/animal-actions'
+import {
+  addAnimalToCart,
+  updateAnimalInCart
+} from '../../store/actions/cart-actions'
 
 class SingleAnimal extends Component {
   constructor() {
     super()
     this.state = {
       Quantity: 0,
-      Price: '$0'
+      Price: '$0',
+      alreadyInCart: false
     }
-    this.UpdatedCart = false
   }
 
   changeQuantity(event) {
@@ -25,6 +28,40 @@ class SingleAnimal extends Component {
     let Price =
       '$' + Math.floor(event.target.value * animal[0].cost * 100) / 100
     this.setState({...this.state, Quantity: event.target.value, Price})
+  }
+
+  checkIfAnimalIsAlreadyInCart() {
+    return this.props.cart.filter(
+      CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
+    ).length
+  }
+
+  addToCart(animal) {
+    let user = this.props.user
+    let quantity = this.state.Quantity
+    this.props.addAnimalToCart(animal, user, quantity)
+    console.log('added animal to cart!')
+  }
+
+  updateCart(animal) {
+    let user = this.props.user
+    let quantity = this.state.Quantity
+    this.props.updateAnimalInCart(animal, user, quantity)
+    console.log('updated animal to cart!')
+  }
+
+  addToCartButtonFunction(animal) {
+    if (this.state.Quantity > 0) {
+      if (this.checkIfAnimalIsAlreadyInCart()) {
+        console.log('updating animal quantity')
+        this.updateCart(animal)
+      } else {
+        console.log('adding animal to cart')
+        this.addToCart(animal)
+      }
+    } else {
+      console.log('Quantity cannot be 0')
+    }
   }
 
   //this.props.user returns the user info
@@ -85,7 +122,13 @@ class SingleAnimal extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Button>ADD TO CART</Button>
+                    <Button
+                      onClick={() => {
+                        this.addToCartButtonFunction(animal[0])
+                      }}
+                    >
+                      ADD TO CART
+                    </Button>
                   </Col>
                 </Row>
               </Col>
@@ -108,8 +151,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchSelectedAnimal: animalId => dispatch(fetchSelectedAnimal(animalId)),
-  fetchUserCart: userId => dispatch(fetchUserCart(userId))
+  addAnimalToCart: (animal, user, quantity) =>
+    dispatch(addAnimalToCart(animal, user, quantity)),
+  updateAnimalInCart: (animal, user, quantity) =>
+    dispatch(updateAnimalInCart(animal, user, quantity))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleAnimal)
