@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-// import PropTypes from 'prop-types'
+import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
 import {LinkContainer} from 'react-router-bootstrap'
 import Navbar from 'react-bootstrap/Navbar'
@@ -8,6 +8,9 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 import {
   logout,
@@ -19,116 +22,132 @@ import {
 class Navigation extends Component {
   componentDidMount() {
     this.props.fetchCategories()
-    console.log('Navigation: my props are: ', this.props)
   }
 
   handleSearch = event => {
+    const searchString = event.target.searchFor.value
     event.preventDefault()
-    console.log('trying to search for: ', event.target.searchFor.value)
-    this.props.searchForAnimals(event.target.searchFor.value)
-    this.props.history.push('/animals')
+    // this.props.searchForAnimals(searchString)
+    this.props.history.push(`/animals?search=${searchString}`)
   }
 
   handleCategorize = eventKey => {
-    console.log('got category request. eventKey: ', eventKey)
-    this.props.filterAnimalCategories(eventKey)
+    // this.props.filterAnimalCategories(eventKey)
+    this.props.history.push(`/animals?category=${eventKey}`)
   }
 
   render() {
     const categories = this.props.categories
 
     return (
-      <div>
-        <Navbar bg="dark" variant="dark">
-          <LinkContainer to="/home">
-            <Navbar.Brand>
-              <img
-                src="/images/beastCo.jpg"
-                width="60"
-                height="50"
-                className="d-inline-block align-center"
-                alt="beast.co logo"
-              />
-              {'beast.co'}
-            </Navbar.Brand>
-          </LinkContainer>
-          <Nav fill className="justify-content-end">
-            <Nav.Item>
+      <Navbar bg="dark" variant="dark">
+        <Container fluid>
+          <Row>
+            <Col sm="4">
               <LinkContainer to="/home">
-                <Nav.Link>HOME</Nav.Link>
+                <Navbar.Brand>
+                  <img
+                    src="/images/beastCo.jpg"
+                    width="100"
+                    height="90"
+                    className="d-inline-block align-center"
+                    alt="beast.co logo"
+                  />
+                  {'beast.co'}
+                </Navbar.Brand>
               </LinkContainer>
-            </Nav.Item>
+            </Col>
 
-            <Nav.Item>
-              <LinkContainer to="/animals">
-                <Nav.Link>ANIMALS</Nav.Link>
-              </LinkContainer>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Dropdown name="category" onSelect={this.handleCategorize}>
-                <Dropdown.Toggle variant="primary">All</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {categories &&
-                    categories.map(category => (
-                      <Dropdown.Item
-                        key={category.id}
-                        eventKey={category.category}
+            <Col sm="8">
+              <Row>
+                <Col>
+                  <Nav fill className="justify-content-left">
+                    <Nav.Item>
+                      <Dropdown
+                        name="category"
+                        onSelect={this.handleCategorize}
                       >
-                        {category.category}
-                      </Dropdown.Item>
-                    ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Nav.Item>
+                        <Dropdown.Toggle variant="primary">All</Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          {categories &&
+                            categories.map(category => (
+                              <Dropdown.Item
+                                key={category.id}
+                                eventKey={category.category}
+                              >
+                                {category.category}
+                              </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Nav.Item>
 
-            <Nav.Item>
-              <Form onSubmit={this.handleSearch} inline>
-                <FormControl
-                  className="mr-sm-2"
-                  name="searchFor"
-                  placeholder="Search"
-                  type="text"
-                />
-                <Button type="submit" variant="outline-info">
-                  Search
-                </Button>
-              </Form>
-            </Nav.Item>
+                    <Nav.Item>
+                      <Form onSubmit={this.handleSearch} inline>
+                        <Form.Row>
+                          <Col>
+                            <FormControl
+                              name="searchFor"
+                              placeholder="Search"
+                              type="text"
+                            />
+                          </Col>
 
-            {this.props.isLoggedIn ? (
-              <Nav.Item>
-                <LinkContainer to="#">
-                  <Nav.Link onSelect={this.props.handleClick}>LOGOUT</Nav.Link>
-                </LinkContainer>
-              </Nav.Item>
-            ) : (
-              <div>
-                <Nav.Item>
-                  <LinkContainer to="/login">
-                    <Nav.Link>LOGIN</Nav.Link>
-                  </LinkContainer>
-                </Nav.Item>
-                <Nav.Item>
-                  <LinkContainer to="/signup">
-                    <Nav.Link>SIGN UP</Nav.Link>
-                  </LinkContainer>
-                </Nav.Item>
-              </div>
-            )}
-          </Nav>
-        </Navbar>
-        <Navbar bg="dark" variant="dark">
-          <Nav fill className="justify-content-end">
-            <Nav.Item>
-              <Nav.Link>BIG</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link>BIGGER</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Navbar>
-      </div>
+                          <Col>
+                            <Button type="submit" variant="outline-info">
+                              Search
+                            </Button>
+                          </Col>
+                        </Form.Row>
+                      </Form>
+                    </Nav.Item>
+                  </Nav>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Nav className="justify-content-start">
+                    <Nav.Item>
+                      <LinkContainer to="/home">
+                        <Nav.Link>HOME</Nav.Link>
+                      </LinkContainer>
+                    </Nav.Item>
+
+                    <Nav.Item>
+                      <LinkContainer to="/animals">
+                        <Nav.Link>ANIMALS</Nav.Link>
+                      </LinkContainer>
+                    </Nav.Item>
+                    {this.props.isLoggedIn ? (
+                      <Nav.Item>
+                        <LinkContainer to="#">
+                          <Nav.Link onSelect={this.props.handleClick}>
+                            LOGOUT
+                          </Nav.Link>
+                        </LinkContainer>
+                      </Nav.Item>
+                    ) : (
+                      <div>
+                        <Nav.Item>
+                          <LinkContainer to="/login">
+                            <Nav.Link>LOGIN</Nav.Link>
+                          </LinkContainer>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <LinkContainer to="/signup">
+                            <Nav.Link>SIGN UP</Nav.Link>
+                          </LinkContainer>
+                        </Nav.Item>
+                      </div>
+                    )}
+                  </Nav>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </Navbar>
     )
   }
 }
@@ -148,7 +167,7 @@ const mapDispatch = dispatch => ({
   searchForAnimals: animal => dispatch(searchForAnimals(animal))
 })
 
-export default connect(mapState, mapDispatch)(Navigation)
+export default withRouter(connect(mapState, mapDispatch)(Navigation))
 
 /**
  * PROP TYPES
