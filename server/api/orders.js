@@ -66,7 +66,10 @@ router.post('/', async (req, res, next) => {
     if (!animalOrders.length) {
       throw new HttpError(500, 'ERROR: failed to create all animal orders')
     }
-    console.log('created animal orders')
+    console.log('created animal orders', animalOrders)
+    // add the ordered items to the new order, for the client confirmation
+    // dialog...
+    newOrder.animalOrders = animalOrders
 
     // destroy cart contents (for future purchases)...
     const destroyedCartItemCount = await Cart.destroyUsersCart(userId)
@@ -75,7 +78,8 @@ router.post('/', async (req, res, next) => {
     }
     console.log('destroyed user cart')
 
-    res.status(201).json(newOrder.id)
+    console.log('newOrder: ', newOrder)
+    res.status(201).json(newOrder)
   } catch (error) {
     next(error)
   }

@@ -43,6 +43,7 @@ export const submitOrder = confirmation => ({
 export const submitCartOrder = order => async dispatch => {
   try {
     const {data} = await axios.post('/api/orders/', order)
+    console.log('got submitted order: ', data)
     dispatch(submitOrder(data))
   } catch (err) {
     console.log(err)
