@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 import AnimalCard from './AnimalCard'
 
@@ -13,11 +14,15 @@ const AllAnimals = ({animals}) => {
     <div>
       <h1>ALL ANIMALS</h1>
       <div>
-        {animals && animals.length
-          ? animals.map(animal => (
-              <AnimalCard key={animal.id} animal={animal} />
-            ))
-          : 'There are no animals in the database...'}
+        <div>
+          {animals && animals.length
+            ? animals.map(animal => (
+                <Link to={`/animal/${animal.id}`} key={animal.id}>
+                  <AnimalCard animal={animal} />
+                </Link>
+              ))
+            : 'There are no animals in the database...'}
+        </div>
       </div>
     </div>
   )

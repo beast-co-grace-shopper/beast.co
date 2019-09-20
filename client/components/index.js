@@ -8,6 +8,7 @@ export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
 
 export {default as AllAnimals} from './animals/AllAnimals'
+export {default as SingleAnimal} from './animals/SingleAnimal'
 export {default as Cart} from './Cart/Cart'
 export {default as AddressForm} from './Cart/AddressForm'
 export {default as AddressCard} from './Cart/AddressCard'
