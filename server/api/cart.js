@@ -68,7 +68,7 @@ router.put('/', async (req, res, next) => {
     const userId = req.body.userId
     const quantity = req.body.quantity
     const animalId = req.body.animalId
-    await Cart.update({quantity, animalId, userId}, {where: {userId, animalId}})
+    await Cart.update({quantity}, {where: {userId, animalId}})
     res.send(
       await Cart.findAll({
         where: {userId, animalId},

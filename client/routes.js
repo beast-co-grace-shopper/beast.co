@@ -24,7 +24,7 @@ class Routes extends Component {
 
   updateCart = user => {
     if (user.id) {
-      console.log('getting cart')
+      //console.log("getting cart");
       if (!this.CartUpdated) {
         this.props.fetchUserCart(user)
       }
