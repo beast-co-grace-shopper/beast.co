@@ -9,10 +9,12 @@ export const SEARCH_ANIMALS = 'SEARCH_ANIMALS'
 export const FILTER_CATEGORIES = 'FILTER_CATEGORIES'
 
 // --[ Action Creators ]---------------------------------------------------------
-export const setSelectedAnimal = selectedAnimal => ({
-  type: SET_SELECTED_ANIMAL,
-  selectedAnimal
-})
+export const setSelectedAnimal = selectedAnimal => {
+  return {
+    type: SET_SELECTED_ANIMAL,
+    selectedAnimal
+  }
+}
 
 export const setAnimals = animals => ({
   type: SET_ANIMALS,
@@ -50,6 +52,15 @@ export const fetchAnimals = () => async dispatch => {
     const {data} = await axios.get('/api/animals')
     dispatch(setAnimals(data))
   } catch (error) {
+    console.error('Failed to GET /api/animals')
+  }
+}
+
+export const fetchSelectedAnimal = animalId => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/animals/${animalId}`)
+    dispatch(setSelectedAnimal(data))
+  } catch (err) {
     console.error('Failed to GET /api/animals')
   }
 }

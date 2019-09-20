@@ -41,21 +41,37 @@ class Navigation extends Component {
 
     return (
       <Navbar bg="dark" variant="dark">
-        <Container fluid>
+        <Container>
           <Row>
-            <Col sm="4">
+            <Col>
               <LinkContainer to="/home">
                 <Navbar.Brand>
                   <img
-                    src="/images/beastCo.jpg"
-                    width="100"
-                    height="90"
+                    src="/images/beastCo.png"
+                    width="60"
+                    height="50"
                     className="d-inline-block align-center"
                     alt="beast.co logo"
                   />
                   {'beast.co'}
                 </Navbar.Brand>
               </LinkContainer>
+              <Nav fill className="justify-content-end">
+                <Nav.Item>
+                  <LinkContainer to="/home">
+                    <Navbar.Brand>
+                      <img
+                        src="/images/beastCo.jpg"
+                        width="100"
+                        height="90"
+                        className="d-inline-block align-center"
+                        alt="beast.co logo"
+                      />
+                      {'beast.co'}
+                    </Navbar.Brand>
+                  </LinkContainer>
+                </Nav.Item>
+              </Nav>
             </Col>
 
             <Col sm="8">

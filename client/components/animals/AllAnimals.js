@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import queryString from 'query-string'
+import {Link} from 'react-router-dom'
 
 import AnimalCard from './AnimalCard'
 
@@ -45,11 +46,12 @@ class AllAnimals extends Component {
 
     return (
       <div>
-        <h1>ALL ANIMALS</h1>
         <div>
           {animals && animals.length
             ? animals.map(animal => (
-                <AnimalCard key={animal.id} animal={animal} />
+                <Link to={`/animal/${animal.id}`} key={animal.id}>
+                  <AnimalCard animal={animal} />
+                </Link>
               ))
             : 'There are no animals in the database...'}
         </div>
