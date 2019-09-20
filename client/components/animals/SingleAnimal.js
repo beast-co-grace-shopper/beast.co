@@ -32,7 +32,7 @@ class SingleAnimal extends Component {
 
   checkIfAnimalIsAlreadyInCart() {
     return this.props.cart.filter(
-      CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
+      CurrentAnimal => CurrentAnimal.animalId == this.props.match.params.id
     ).length
   }
 
@@ -40,23 +40,19 @@ class SingleAnimal extends Component {
     let user = this.props.user
     let quantity = this.state.Quantity
     this.props.addAnimalToCart(animal, user, quantity)
-    console.log('added animal to cart!')
   }
 
   updateCart(animal) {
     let user = this.props.user
     let quantity = this.state.Quantity
     this.props.updateAnimalInCart(animal, user, quantity)
-    console.log('updated animal to cart!')
   }
 
   addToCartButtonFunction(animal) {
     if (this.state.Quantity > 0) {
       if (this.checkIfAnimalIsAlreadyInCart()) {
-        console.log('updating animal quantity')
         this.updateCart(animal)
       } else {
-        console.log('adding animal to cart')
         this.addToCart(animal)
       }
     } else {
