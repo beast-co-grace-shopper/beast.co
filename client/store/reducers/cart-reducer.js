@@ -26,7 +26,7 @@ const cartReducer = (state = [], action) => {
 
     case UPDATE_ANIMAL: {
       const cartItemsWithNoUpdate = state.filter(
-        cartItem => cartItem.animal.id !== action.animal.id
+        cartItem => cartItem.animalId !== action.animal.animalId
       )
 
       return [...cartItemsWithNoUpdate, action.animal]
