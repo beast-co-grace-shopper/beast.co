@@ -3,7 +3,8 @@ import {
   REMOVE_ANIMAL_FROM_CART,
   FETCH_CART,
   REMOVE_ALL_ANIMALS,
-  UPDATE_ANIMAL
+  UPDATE_ANIMAL,
+  SUBMIT_ORDER
 } from '../actions/cart-actions'
 
 const cartReducer = (state = [], action) => {
@@ -30,6 +31,10 @@ const cartReducer = (state = [], action) => {
       )
 
       return [...cartItemsWithNoUpdate, action.animal]
+    }
+
+    case SUBMIT_ORDER: {
+      return []
     }
 
     default:
