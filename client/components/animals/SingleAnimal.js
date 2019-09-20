@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 
 import {fetchSelectedAnimal} from '../../store/actions/animal-actions'
-import {fetchUserCart} from '../../store/actions/cart-actions'
 
 class SingleAnimal extends Component {
   constructor() {
@@ -16,57 +15,47 @@ class SingleAnimal extends Component {
       Quantity: 0,
       Price: '$0'
     }
-  }
-
-  componentDidMount() {
-    this.props.fetchSelectedAnimal(this.props.match.params.id)
-    if (this.props.user) {
-      //this.props.fetchUserCart(this.props.user);
-    }
+    this.UpdatedCart = false
   }
 
   changeQuantity(event) {
-    //console.log(event.target.value);
+    let animal = this.props.animals.filter(
+      CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
+    )
     let Price =
-      '$' +
-      Math.floor(event.target.value * this.props.animals[0].cost * 100) / 100
+      '$' + Math.floor(event.target.value * animal[0].cost * 100) / 100
     this.setState({...this.state, Quantity: event.target.value, Price})
   }
 
   //this.props.user returns the user info
 
-  updateIfAnimalIsInCart(user) {
-    if (user) {
-      console.log(user)
-      //
-    }
-  }
-
   render() {
-    this.updateIfAnimalIsInCart(this.props.user)
+    let animal = this.props.animals.filter(
+      CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
+    )
+
     return (
       <div>
-        {this.props.animals && this.props.animals.length === 1 ? (
+        {animal && animal.length === 1 ? (
           <Container className="card">
             <Row>
               <Col>
                 <Image
-                  src={this.props.animals[0].photo}
+                  src={animal[0].photo}
                   style={{height: '300px', width: '300px'}}
                   fluid
                 />
               </Col>
               <Col>
-                <h1>{this.props.animals[0].name}</h1>
+                <h1>{animal[0].name}</h1>
                 <div>
-                  {this.props.animals[0].description &&
-                  this.props.animals[0].description.length > 0 ? (
-                    <p>Description: {this.props.animals[0].description}</p>
+                  {animal[0].description && animal[0].description.length > 0 ? (
+                    <p>Description: {animal[0].description}</p>
                   ) : (
                     ''
                   )}
                 </div>
-                <p>Price: ${this.props.animals[0].cost}</p>
+                <p>Price: ${animal[0].cost}</p>
               </Col>
               <Col>
                 <Row>

@@ -23,10 +23,10 @@ class Cart extends Component {
     })
   }
 
-  componentDidMount() {
-    const user = this.props.user
-    this.props.fetchUserCart(user)
-  }
+  // componentDidMount() {
+  //   const user = this.props.user
+  //   //this.props.fetchUserCart(user)
+  // }
 
   render() {
     var formatter = new Intl.NumberFormat('en-US', {
