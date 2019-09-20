@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
 import AnimalCard from '../animals/AnimalCard'
-import {fetchUserCart} from '../../store/'
+import {fetchUserCart, submitCartOrder} from '../../store/'
 import {AddressForm, AddressCard} from '../'
 
 class Cart extends Component {
@@ -24,14 +24,9 @@ class Cart extends Component {
     })
   }
 
-  handleSubmit(event) {
-    event.preventDefault()
-
+  handleSubmit() {
     let newOrder
     const registeredUser = this.props.cart[0].user.address
-    const today = new Date()
-    const date =
-      today.getFullYear() + '-'(today.getMonth() + 1) + '-' + today.getDate()
     let shipType
 
     if (this.state.Shipping === 500) {
@@ -56,13 +51,12 @@ class Cart extends Component {
         city: checkoutUser.city,
         state: checkoutUser.state,
         zip: checkoutUser.zip,
-        purchaseDate: date,
         deliveryType: shipType,
         userid: checkoutUser.id
       }
     }
 
-    this.props.makeOrder(newOrder)
+    this.props.submitCartOrder(newOrder)
   }
 
   render() {
@@ -195,7 +189,7 @@ class Cart extends Component {
               <a
                 href="#"
                 className="btn btn-primary"
-                onSubmit={() => this.handleSubmit()}
+                onClick={() => this.handleSubmit()}
               >
                 Submit Order
               </a>
@@ -215,7 +209,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchUserCart: user => dispatch(fetchUserCart(user))
+  fetchUserCart: user => dispatch(fetchUserCart(user)),
+  submitCartOrder: newOrder => dispatch(submitCartOrder(newOrder))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)

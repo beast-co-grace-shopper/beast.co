@@ -34,7 +34,7 @@ const cartReducer = (state = [], action) => {
     }
 
     case SUBMIT_ORDER: {
-      return
+      return []
     }
 
     default:

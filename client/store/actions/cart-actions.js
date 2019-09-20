@@ -42,9 +42,7 @@ export const submitOrder = confirmation => ({
 //THUNK CREATORS
 export const submitCartOrder = order => async dispatch => {
   try {
-    const idObj = {userId: order.userId}
-    const {data} = await axios.post('/api/order', order)
-    await axios.delete('/api/cart/all', idObj)
+    const {data} = await axios.post('/api/orders/', order)
     dispatch(submitOrder(data))
   } catch (err) {
     console.log(err)
