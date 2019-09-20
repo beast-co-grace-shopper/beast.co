@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
 import AnimalCard from '../animals/AnimalCard'
 import {fetchUserCart} from '../../store/'
-import {AddressForm} from '../'
+import {AddressForm, AddressCard} from '../'
 
 class Cart extends Component {
   constructor(props) {
@@ -29,6 +29,11 @@ class Cart extends Component {
   }
 
   render() {
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+
     const animals = this.props.cart.map(function(cartItem) {
       return cartItem.animal
     })
@@ -45,68 +50,105 @@ class Cart extends Component {
     return (
       <div>
         <Container className="cart-container">
+          {/* row ensures 2 columns side by side */}
           <Row>
-            <Col className="shopping-cart">
-              <h1>Shopping Cart</h1>
-              {animals && animals.length
-                ? animals.map(animal => (
-                    <AnimalCard key={animal.id} animal={animal} />
-                  ))
-                : 'Shopping Cart is Empty!'}
-            </Col>
-            <Col className="order-details">
-              <h1>Order Details</h1>
-              <Row className="card">
-                <h2>Shipping Address</h2>
-
-                {address ? address : <AddressForm />}
+            <Col className="card-column">
+              <h1 className="card-title">Shopping Cart</h1>
+              <Row>
+                <Col className="card-column">
+                  {animals && animals.length
+                    ? animals.map(animal => (
+                        <div key={animal.id}>
+                          <AnimalCard animal={animal} />
+                          <br />
+                        </div>
+                      ))
+                    : 'Shopping Cart is Empty!'}
+                </Col>
               </Row>
-              <Row className="card">
+            </Col>
+
+            <Col className="card-column">
+              <h1>Order Details</h1>
+
+              <div className="card">
+                <h5 className="card-header card-text">Shipping Address</h5>
+
+                {address ? <AddressCard /> : <AddressForm />}
+              </div>
+
+              <br />
+              <div className="card">
                 <Form>
                   <Form.Group>
-                    <Form.Label>Select Shipping Option</Form.Label>
-                    <Form.Check
-                      type="radio"
-                      id="Standard"
-                      label="Standard: $500.00"
-                      name="Shipping"
-                      onChange={this.handleChange}
-                      value={500.0}
-                    />
-                    <Form.Check
-                      type="radio"
-                      id="Express"
-                      label="Express: $1,000.00"
-                      name="Shipping"
-                      onChange={this.handleChange}
-                      value={1000.0}
-                    />
-                    <Form.Check
-                      type="radio"
-                      id="Overnight"
-                      label="Overnight: $5,000.00"
-                      name="Shipping"
-                      onChange={this.handleChange}
-                      value={5000.0}
-                    />
+                    <h5 className="card-header card-text">
+                      Select Shipping Option
+                    </h5>
+                    <div className="card-body">
+                      <Form.Check
+                        type="radio"
+                        id="Standard"
+                        label="Standard: $500.00"
+                        name="Shipping"
+                        onChange={this.handleChange}
+                        value={500.0}
+                      />
+                      <br />
+                      <Form.Check
+                        type="radio"
+                        id="Express"
+                        label="Express: $1,000.00"
+                        name="Shipping"
+                        onChange={this.handleChange}
+                        value={1000.0}
+                      />
+                      <br />
+                      <Form.Check
+                        type="radio"
+                        id="Overnight"
+                        label="Overnight: $5,000.00"
+                        name="Shipping"
+                        onChange={this.handleChange}
+                        value={5000.0}
+                      />
+                    </div>
                   </Form.Group>
                 </Form>
-              </Row>
-              <Row className="card">
-                <h2>Order Summary</h2>
-                <Row>Cart Total: ${cartCost}</Row>
-                <Row>
-                  Shipping Cost: ${this.state.Shipping
-                    ? this.state.Shipping
-                    : 0.0}
-                </Row>
-                <Row>Tax: ${tax ? tax : 0.0}</Row>
-                <Row>
-                  Grand Total: ${tax
-                    ? this.state.Shipping + cartCost + tax
-                    : this.state.Shipping + cartCost}
-                </Row>
-              </Row>
+              </div>
+
+              <br />
+
+              <div className="card">
+                <h5 className="card-header card-text">Order Summary</h5>
+                <div className="card-body">
+                  <p>
+                    <strong>Cart Total:</strong> ${cartCost}
+                  </p>
+                  <p>
+                    <strong>Shipping Cost: </strong>${this.state.Shipping
+                      ? this.state.Shipping
+                      : 0.0}
+                  </p>
+                  <p>
+                    <strong>Tax: </strong>${tax ? tax : 0.0}
+                  </p>
+                  <p>
+                    <strong>Grand Total: </strong>${tax
+                      ? this.state.Shipping + cartCost + tax
+                      : this.state.Shipping + cartCost}
+                  </p>
+                </div>
+              </div>
+
+              <br />
+              <br />
+
+              <a href="#" className="btn btn-primary">
+                Submit Order
+              </a>
+
+              <br />
+              <br />
             </Col>
           </Row>
         </Container>

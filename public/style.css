@@ -9,3 +9,11 @@ a {
 label {
   display: block;
 }
+
+.card .card-header {
+  background-color: #047568;
+}
+
+.card-text {
+  color: white;
+}
