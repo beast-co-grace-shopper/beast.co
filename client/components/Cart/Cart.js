@@ -15,6 +15,7 @@ class Cart extends Component {
     this.state = {}
 
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleChange(event) {
@@ -23,12 +24,57 @@ class Cart extends Component {
     })
   }
 
-  // componentDidMount() {
-  //   const user = this.props.user
-  //   //this.props.fetchUserCart(user)
-  // }
+  handleSubmit(event) {
+    event.preventDefault()
+
+    let newOrder
+    const registeredUser = this.props.cart[0].user.address
+    const today = new Date()
+    const date =
+      today.getFullYear() + '-'(today.getMonth() + 1) + '-' + today.getDate()
+    let shipType
+
+    if (this.state.Shipping === 500) {
+      shipType = 'Standard'
+    }
+    if (this.state.Shipping === 1000) {
+      shipType = 'Express'
+    }
+    if (this.state.Shipping === 5000) {
+      shipType = 'Overnight'
+    }
+
+    if (registeredUser) {
+      const checkoutUser = this.props.cart[0].user
+
+      newOrder = {
+        firstName: checkoutUser.firstName,
+        lastName: checkoutUser.lastName,
+        email: checkoutUser.email,
+        address: checkoutUser.address,
+        address2: checkoutUser.address2,
+        city: checkoutUser.city,
+        state: checkoutUser.state,
+        zip: checkoutUser.zip,
+        purchaseDate: date,
+        deliveryType: shipType,
+        userid: checkoutUser.id
+      }
+    }
+
+    this.props.makeOrder(newOrder)
+  }
 
   render() {
+    const firstCartItem = this.props.cart[0]
+
+    let address
+
+    if (firstCartItem) {
+      console.log(firstCartItem.user.address)
+      address = firstCartItem.user.address
+    }
+
     var formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
@@ -37,9 +83,6 @@ class Cart extends Component {
     const animals = this.props.cart.map(function(cartItem) {
       return cartItem.animal
     })
-
-    const address = this.props.user.address
-    // const address = 'Hello'
 
     const cartCost = this.props.cart.reduce(function(total, cartItem) {
       return total + cartItem.animal.cost
@@ -74,7 +117,11 @@ class Cart extends Component {
               <div className="card">
                 <h5 className="card-header card-text">Shipping Address</h5>
 
-                {address ? <AddressCard /> : <AddressForm />}
+                {address ? (
+                  <AddressCard />
+                ) : (
+                  <AddressForm handleChange={this.handleChange} />
+                )}
               </div>
 
               <br />
@@ -91,7 +138,7 @@ class Cart extends Component {
                         label="Standard: $500.00"
                         name="Shipping"
                         onChange={this.handleChange}
-                        value={500.0}
+                        value={500}
                       />
                       <br />
                       <Form.Check
@@ -100,7 +147,7 @@ class Cart extends Component {
                         label="Express: $1,000.00"
                         name="Shipping"
                         onChange={this.handleChange}
-                        value={1000.0}
+                        value={1000}
                       />
                       <br />
                       <Form.Check
@@ -109,7 +156,7 @@ class Cart extends Component {
                         label="Overnight: $5,000.00"
                         name="Shipping"
                         onChange={this.handleChange}
-                        value={5000.0}
+                        value={5000}
                       />
                     </div>
                   </Form.Group>
@@ -158,8 +205,7 @@ class Cart extends Component {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart,
-  user: state.user
+  cart: state.cart
 })
 
 const mapDispatchToProps = dispatch => ({

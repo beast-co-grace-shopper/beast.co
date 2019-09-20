@@ -6,6 +6,7 @@ export const REMOVE_ANIMAL_FROM_CART = 'REMOVE_ANIMAL_FROM_CART'
 export const FETCH_CART = 'FETCH_CART'
 export const REMOVE_ALL_ANIMALS = 'REMOVE_ALL_ANIMALS'
 export const UPDATE_ANIMAL = 'UPDATE_ANIMAL'
+export const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 //ACTION CREATORS
 export const addAnimal = animal => ({
@@ -31,6 +32,11 @@ export const removeAllAnimals = cart => ({
 export const updateANIMAL = animal => ({
   type: UPDATE_ANIMAL,
   animal
+})
+
+export const submitOrder = order => ({
+  type: SUBMIT_ORDER,
+  order
 })
 
 //THUNK CREATORS
