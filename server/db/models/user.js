@@ -86,6 +86,41 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
+User.findUserBySession = async function(sessionId) {
+  const guestUser = await User.findOne({
+    where: {
+      sessionId: sessionId
+    }
+  })
+
+  if (guestUser) {
+    console.log('found user by session: ', guestUser)
+    return guestUser.id
+  }
+
+  return undefined
+}
+
+User.findOrCreateUserBySession = async function(sessionId) {
+  console.log('did not find user. attempt to find user by session')
+  const guestUser = await User.findUserBySession(sessionId)
+
+  if (guestUser) {
+    return guestUser
+  } else {
+    // create a user containing the session identifier...
+    const newUser = await User.create({
+      sessionId: sessionId
+    })
+    if (newUser) {
+      console.log('successfully created new user with session: ', newUser)
+      return newUser.id
+    }
+  }
+
+  return undefined
+}
+
 /**
  * hooks
  */
