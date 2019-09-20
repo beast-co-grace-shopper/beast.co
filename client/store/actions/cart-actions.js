@@ -6,6 +6,7 @@ export const REMOVE_ANIMAL_FROM_CART = 'REMOVE_ANIMAL_FROM_CART'
 export const FETCH_CART = 'FETCH_CART'
 export const REMOVE_ALL_ANIMALS = 'REMOVE_ALL_ANIMALS'
 export const UPDATE_ANIMAL = 'UPDATE_ANIMAL'
+export const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 //ACTION CREATORS
 export const addAnimal = animal => ({
@@ -33,7 +34,21 @@ export const updateANIMAL = animal => ({
   animal
 })
 
+export const submitOrder = confirmation => ({
+  type: SUBMIT_ORDER,
+  confirmation
+})
+
 //THUNK CREATORS
+export const submitCartOrder = order => async dispatch => {
+  try {
+    const {data} = await axios.post('/api/orders/', order)
+    dispatch(submitOrder(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const addAnimalToCart = (animal, user, quantity) => async dispatch => {
   try {
     const postAnimal = {
