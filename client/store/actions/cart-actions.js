@@ -34,12 +34,23 @@ export const updateANIMAL = animal => ({
   animal
 })
 
-export const submitOrder = order => ({
+export const submitOrder = confirmation => ({
   type: SUBMIT_ORDER,
-  order
+  confirmation
 })
 
 //THUNK CREATORS
+export const submitCartOrder = order => async dispatch => {
+  try {
+    const idObj = {userId: order.userId}
+    const {data} = await axios.post('/api/order', order)
+    await axios.delete('/api/cart/all', idObj)
+    dispatch(submitOrder(data))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 export const addAnimalToCart = (animal, user, quantity) => async dispatch => {
   try {
     const postAnimal = {

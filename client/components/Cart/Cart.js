@@ -85,10 +85,10 @@ class Cart extends Component {
     })
 
     const cartCost = this.props.cart.reduce(function(total, cartItem) {
-      return total + cartItem.animal.cost
+      return Number(total + cartItem.animal.cost * cartItem.quantity)
     }, 0)
 
-    const tax = cartCost * this.state.Shipping * 0.15
+    const tax = (cartCost + this.state.Shipping) * 0.15
 
     return (
       <div>
@@ -180,9 +180,11 @@ class Cart extends Component {
                     <strong>Tax: </strong>${tax ? tax : 0.0}
                   </p>
                   <p>
-                    <strong>Grand Total: </strong>${tax
-                      ? this.state.Shipping + cartCost + tax
-                      : this.state.Shipping + cartCost}
+                    <strong>Grand Total: </strong>${(
+                      Number(this.state.Shipping) +
+                      Number(cartCost) +
+                      Number(tax)
+                    ).toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -190,7 +192,11 @@ class Cart extends Component {
               <br />
               <br />
 
-              <a href="#" className="btn btn-primary">
+              <a
+                href="#"
+                className="btn btn-primary"
+                onSubmit={() => this.handleSubmit()}
+              >
                 Submit Order
               </a>
 
