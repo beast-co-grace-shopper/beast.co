@@ -30,18 +30,6 @@ const AuthForm = props => {
           <Container className="address-form">
             <Form onSubmit={handleSubmit} name={name}>
               <Form.Row>
-                <Form.Group as={Col} controlId="formGridFirstName">
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control placeholder="First Name" name="firstName" />
-                </Form.Group>
-
-                <Form.Group as={Col} controlId="formGridLastName">
-                  <Form.Label>Last Name</Form.Label>
-                  <Form.Control placeholder="Last Name" name="lastName" />
-                </Form.Group>
-              </Form.Row>
-
-              <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Row>
                     <Col>
@@ -73,30 +61,49 @@ const AuthForm = props => {
                 </Form.Group>
               </Form.Row>
 
-              <Form.Group controlId="formGridAddress1">
-                <Form.Label>Address</Form.Label>
-                <Form.Control placeholder="1234 Main St" name="address" />
-              </Form.Group>
+              {displayName === 'Login' ? (
+                ''
+              ) : (
+                <div>
+                  <Form.Row>
+                    <Form.Group as={Col} controlId="formGridFirstName">
+                      <Form.Label>First Name</Form.Label>
+                      <Form.Control placeholder="First Name" name="firstName" />
+                    </Form.Group>
 
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridCity">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control name="city" />
-                </Form.Group>
+                    <Form.Group as={Col} controlId="formGridLastName">
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control placeholder="Last Name" name="lastName" />
+                    </Form.Group>
+                  </Form.Row>
 
-                <Form.Group as={Col} controlId="formGridState">
-                  <Form.Label>State</Form.Label>
-                  <Form.Control as="select" name="state">
-                    <option>Choose...</option>
-                    <option>...</option>
-                  </Form.Control>
-                </Form.Group>
+                  <Form.Group controlId="formGridAddress1">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control placeholder="1234 Main St" name="address" />
+                  </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridZip">
-                  <Form.Label>Zip</Form.Label>
-                  <Form.Control name="zip" />
-                </Form.Group>
-              </Form.Row>
+                  <Form.Row>
+                    <Form.Group as={Col} controlId="formGridCity">
+                      <Form.Label>City</Form.Label>
+                      <Form.Control name="city" />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridState">
+                      <Form.Label>State</Form.Label>
+                      <Form.Control as="select" name="state">
+                        <option>Choose...</option>
+                        <option>...</option>
+                      </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="formGridZip">
+                      <Form.Label>Zip</Form.Label>
+                      <Form.Control name="zip" />
+                    </Form.Group>
+                  </Form.Row>
+                </div>
+              )}
+
               <Form.Row>
                 <Button type="submit">{displayName}</Button>
               </Form.Row>
@@ -171,12 +178,21 @@ const mapDispatch = dispatch => {
       const email = evt.target.email.value
       const password = evt.target.password.value
 
-      const address = evt.target.address.value
-      const city = evt.target.city.value
-      const state = evt.target.state.value
-      const zip = evt.target.zip.value
-      const firstName = evt.target.firstName.value
-      const lastName = evt.target.lastName.value
+      let address = ''
+      let city = ''
+      let state = ''
+      let zip = ''
+      let firstName = ''
+      let lastName = ''
+
+      if (evt.target.address) {
+        address = evt.target.address.value
+        city = evt.target.city.value
+        state = evt.target.state.value
+        zip = evt.target.zip.value
+        firstName = evt.target.firstName.value
+        lastName = evt.target.lastName.value
+      }
 
       dispatch(
         auth(
