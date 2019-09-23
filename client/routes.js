@@ -31,13 +31,23 @@ class Routes extends Component {
     }
   }
 
+  updateGuestCart = user => {
+    //console.log(user);
+    this.props.fetchUserCart({id: user})
+    //console.log(this.props);
+  }
+
   render() {
     const {isLoggedIn} = this.props
 
     if (this.props.user.id && !this.UpdatedCart) {
       this.updateCart(this.props.user)
       this.UpdatedCart = true
+    } else if (!this.UpdatedCart && this.props.animals.length > 0) {
+      this.updateGuestCart('guest')
+      this.UpdatedCart = true
     }
+
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}

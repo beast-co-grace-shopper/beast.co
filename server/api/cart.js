@@ -4,6 +4,32 @@ const HttpError = require('../utils/HttpError')
 const {Cart, Animal, User} = require('../db/models')
 module.exports = router
 
+router.use((req, res, next) => {
+  if (!req.session.sessionId) {
+    req.session.sessionId = req.session.id
+  } else {
+    //req.session.sessionId = req.session.id;
+  }
+  //console.log('req.session.sessionId', req.session.sessionId)
+  next()
+})
+
+router.get('/guest', async (req, res, send) => {
+  try {
+    const user = await User.findOne({where: {sessionId: req.session.sessionId}})
+    //console.log(user);
+    //console.log(req.session.sessionId);
+    const cart = await Cart.findAll({
+      where: {userId: user.id},
+      include: [{model: Animal}, {model: User}]
+    })
+    //console.log("cart", cart)
+    res.json(cart)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 router.get('/:id', async (req, res, next) => {
   try {
     const cart = await Cart.findAll({
