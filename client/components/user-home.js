@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-//import {auth} from '../store'
+import {update} from '../store'
 
 /**
  * COMPONENT
@@ -37,17 +37,19 @@ export const UserHome = props => {
       zip = evt.target.zip.value
     }
 
-    // props.auth(
-    //     email,
-    //     password,
-    //     formName,
-    //     address,
-    //     city,
-    //     state,
-    //     zip,
-    //     firstName,
-    //     lastName
-    //   )
+    let info = {
+      formName,
+      email,
+      password,
+      address,
+      city,
+      state,
+      zip,
+      firstName,
+      lastName
+    }
+
+    props.update(info)
   }
 
   return (
@@ -136,25 +138,7 @@ const mapState = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  // auth: (
-  //   email,
-  //   password,
-  //   formName,
-  //   address,
-  //   city,
-  //   state,
-  //   zip,
-  //   firstName,
-  //   lastName) => dispatch(auth(
-  //     email,
-  //     password,
-  //     formName,
-  //     address,
-  //     city,
-  //     state,
-  //     zip,
-  //     firstName,
-  //     lastName))
+  update: user => dispatch(update(user))
 })
 
 export default connect(mapState, mapDispatchToProps)(UserHome)

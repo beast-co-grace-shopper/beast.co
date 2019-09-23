@@ -18,8 +18,10 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/update', async (req, res, next) => {
+  console.log('Here')
   try {
+    console.log('body', req.body)
     const email = req.body.email
     const password = req.body.password
 
@@ -34,7 +36,8 @@ router.put('/', async (req, res, next) => {
       {address, firstName, lastName, city, zip, state},
       {where: {email, password}}
     )
-    res.json(data)
+    console.log('backend data', data)
+    res.send(data)
   } catch (err) {
     console.log(err)
   }
