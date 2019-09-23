@@ -120,17 +120,30 @@ router.delete('/all', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    const userId = req.body.userId
     const quantity = req.body.quantity
     const animalId = req.body.animalId
-    await Cart.update({quantity}, {where: {userId, animalId}})
-    res.send(
-      await Cart.findAll({
-        where: {userId, animalId},
-        include: [{model: Animal}, {model: User}]
+    if (req.body.userId) {
+      const userId = req.body.userId
+      await Cart.update({quantity}, {where: {userId, animalId}})
+      res.send(
+        await Cart.findAll({
+          where: {userId, animalId},
+          include: [{model: Animal}, {model: User}]
+        })
+      )
+    } else {
+      const user = await User.findOne({
+        where: {sessionId: req.session.sessionId}
       })
-    )
+      await Cart.update({quantity}, {where: {userId: user.id, animalId}})
+      res.send(
+        await Cart.findAll({
+          where: {userId: user.id, animalId},
+          include: [{model: Animal}, {model: User}]
+        })
+      )
+    }
   } catch (err) {
-    next(err)
+    console.log('this error', err)
   }
 })
