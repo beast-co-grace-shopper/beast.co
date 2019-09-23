@@ -65,7 +65,6 @@ class Navigation extends Component {
   handleControlMenu = eventKey => {
     switch (eventKey) {
       case 'orders':
-        console.log('got an orders request for: ', this.props.loggedInUser)
         this.props.fetchOrdersForUser(this.props.loggedInUser)
         this.props.history.push(`/users/${this.props.loggedInUser}/orders`)
         break
