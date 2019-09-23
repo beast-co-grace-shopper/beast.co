@@ -40,7 +40,12 @@ Category.belongsToMany(Animal, {through: AnimalCategories})
 //an animal belongs to many orders
 //an order belongs to many animals
 
-Order.belongsToMany(Animal, {through: AnimalOrder})
+// Order.belongsToMany(Animal, {through: AnimalOrder})
+// Animal.belongsToMany(Order, {through: AnimalOrder})
+// Order.hasMany(AnimalOrder, {as: 'cart'})
+// Animal.hasMany(AnimalOrder)
+Order.hasMany(AnimalOrder, {as: 'cart'})
+AnimalOrder.belongsTo(Animal)
 
 // --[ Helper Methods Requiring Multiple Models ]------------------------------
 Cart.findUsersCart = function(userId) {

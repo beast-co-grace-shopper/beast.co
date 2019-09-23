@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 const router = require('express').Router()
-const {AnimalOrder, Cart, Order, User} = require('../db/models')
+const {Animal, AnimalOrder, Cart, Order, User} = require('../db/models')
 const HttpError = require('../utils/HttpError')
 
 module.exports = router
@@ -69,17 +69,31 @@ router.post('/', async (req, res, next) => {
     console.log('created animal orders', animalOrders)
     // add the ordered items to the new order, for the client confirmation
     // dialog...
-    newOrder.animalOrders = animalOrders
+    const orderWithCart = await newOrder.reload({
+      include: [
+        {
+          model: AnimalOrder,
+          as: 'cart',
+          include: [
+            {
+              model: Animal
+            }
+          ]
+        }
+      ]
+    })
+
+    console.log('order with cart: ', orderWithCart)
+    console.log('cart: ', orderWithCart.cart)
 
     // destroy cart contents (for future purchases)...
-    const destroyedCartItemCount = await Cart.destroyUsersCart(userId)
-    if (destroyedCartItemCount !== usersCart.length) {
-      throw new HttpError(500, 'ERROR: failed to destroy user cart')
-    }
-    console.log('destroyed user cart')
+    // const destroyedCartItemCount = await Cart.destroyUsersCart(userId)
+    // if (destroyedCartItemCount !== usersCart.length) {
+    //   throw new HttpError(500, 'ERROR: failed to destroy user cart')
+    // }
+    // console.log('destroyed user cart')
 
-    console.log('newOrder: ', newOrder)
-    res.status(201).json(newOrder)
+    res.status(201).json(orderWithCart)
   } catch (error) {
     next(error)
   }

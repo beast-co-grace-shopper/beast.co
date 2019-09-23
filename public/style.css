@@ -1,7 +1,3 @@
-body {
-  font-family: sans-serif;
-}
-
 a {
   text-decoration: none;
 }
@@ -16,4 +12,12 @@ label {
 
 .card-text {
   color: white;
+}
+
+.font-size-larger {
+  font-size: 1.25em;
+}
+
+.logo {
+  font-family: 'Fredoka One', cursive;
 }
