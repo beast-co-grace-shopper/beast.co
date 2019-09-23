@@ -58,7 +58,7 @@ export const addAnimalToCart = (animal, user, quantity) => async dispatch => {
       quantity: quantity
     }
     const {data} = await axios.post('/api/cart', postAnimal)
-    dispatch(addAnimal(postAnimal))
+    dispatch(addAnimal(data))
   } catch (error) {
     console.log(error)
   }

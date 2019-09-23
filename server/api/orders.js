@@ -87,11 +87,11 @@ router.post('/', async (req, res, next) => {
     console.log('cart: ', orderWithCart.cart)
 
     // destroy cart contents (for future purchases)...
-    // const destroyedCartItemCount = await Cart.destroyUsersCart(userId)
-    // if (destroyedCartItemCount !== usersCart.length) {
-    //   throw new HttpError(500, 'ERROR: failed to destroy user cart')
-    // }
-    // console.log('destroyed user cart')
+    const destroyedCartItemCount = await Cart.destroyUsersCart(userId)
+    if (destroyedCartItemCount !== usersCart.length) {
+      throw new HttpError(500, 'ERROR: failed to destroy user cart')
+    }
+    console.log('destroyed user cart')
 
     res.status(201).json(orderWithCart)
   } catch (error) {

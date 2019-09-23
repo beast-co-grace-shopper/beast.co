@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import SingleAnimal from './components/Animal/SingleAnimal'
-import {Login, Signup, UserHome, AllAnimals, Cart} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  AllAnimals,
+  Cart,
+  Confirmation
+} from './components'
 import {me, fetchAnimals} from './store'
 import {fetchUserCart} from './store/actions/cart-actions'
 
@@ -60,6 +67,7 @@ class Routes extends Component {
           )}
         />
         <Route path="/cart" component={Cart} />
+        <Route path="/confirmation" component={Confirmation} />
         <Route path="/animal/:id" component={SingleAnimal} />
         {isLoggedIn && (
           <Switch>
