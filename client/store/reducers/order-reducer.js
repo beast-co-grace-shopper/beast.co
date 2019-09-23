@@ -1,15 +1,19 @@
-import SUBMIT_ORDER from '../actions/cart-actions'
+import {SET_ORDER, SET_USER_ORDERS} from '../actions/order-actions'
 
 const initialState = {
   order: {},
-  allOrders: []
+  allUserOrders: []
 }
 
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SUBMIT_ORDER: {
+    case SET_ORDER: {
       console.log('are you getting to order reducer', action.order)
       return {...state, order: action.order}
+    }
+
+    case SET_USER_ORDERS: {
+      return {...state, allUserOrders: action.allUserOrders}
     }
 
     default:
