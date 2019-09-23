@@ -120,12 +120,12 @@ async function seed() {
 
   await Cart.create({
     quantity: 2,
-    userId: 2,
+    userId: 1,
     animalId: 2
   })
   await Cart.create({
     quantity: 4,
-    userId: 2,
+    userId: 1,
     animalId: 3
   })
 
