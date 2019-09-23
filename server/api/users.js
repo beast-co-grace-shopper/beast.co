@@ -18,26 +18,9 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.put('/update', async (req, res, next) => {
-  console.log('Here')
+router.get('/updateUser', async (req, res, next) => {
   try {
     console.log('body', req.body)
-    const email = req.body.email
-    const password = req.body.password
-
-    const address = req.body.address
-    const firstName = req.body.firstName
-    const lastName = req.body.lastName
-    const city = req.body.city
-    const zip = req.body.zip
-    const state = req.body.state
-
-    const {data} = await User.update(
-      {address, firstName, lastName, city, zip, state},
-      {where: {email, password}}
-    )
-    console.log('backend data', data)
-    res.send(data)
   } catch (err) {
     console.log(err)
   }

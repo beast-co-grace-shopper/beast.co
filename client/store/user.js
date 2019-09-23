@@ -35,7 +35,7 @@ export const me = () => async dispatch => {
 export const update = info => async dispatch => {
   try {
     console.log('info:', info)
-    const res = await axios.put('/auth/update', info)
+    const res = await axios.put('/auth/updateUser', info)
     console.log('res', res)
     dispatch(updateUser(res.data))
   } catch (err) {
