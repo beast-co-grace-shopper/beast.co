@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {setOrder} from './order-actions'
 
 //ACTION TYPES
 export const ADD_ANIMAL_TO_CART = 'ADD_ANIMAL_TO_CART'
@@ -34,6 +35,7 @@ export const updateANIMAL = animal => ({
   animal
 })
 
+//we can remove this
 export const submitOrder = order => ({
   type: SUBMIT_ORDER,
   order
@@ -44,7 +46,7 @@ export const submitCartOrder = order => async dispatch => {
   try {
     const {data} = await axios.post('/api/orders/', order)
     console.log('got submitted order: ', data)
-    dispatch(submitOrder(data))
+    dispatch(setOrder(data))
   } catch (err) {
     console.log(err)
   }
