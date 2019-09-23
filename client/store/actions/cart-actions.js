@@ -34,9 +34,9 @@ export const updateANIMAL = animal => ({
   animal
 })
 
-export const submitOrder = confirmation => ({
+export const submitOrder = order => ({
   type: SUBMIT_ORDER,
-  confirmation
+  order
 })
 
 //THUNK CREATORS
@@ -58,7 +58,7 @@ export const addAnimalToCart = (animal, user, quantity) => async dispatch => {
       quantity: quantity
     }
     const {data} = await axios.post('/api/cart', postAnimal)
-    dispatch(addAnimal(postAnimal))
+    dispatch(addAnimal(data))
   } catch (error) {
     console.log(error)
   }

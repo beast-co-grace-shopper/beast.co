@@ -8,6 +8,7 @@ const initialState = {
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case SUBMIT_ORDER: {
+      console.log('are you getting to order reducer', action.order)
       return {...state, order: action.order}
     }
 

@@ -1,10 +1,11 @@
+/* eslint-disable complexity */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import Image from 'react-bootstrap/Image'
+import {LinkContainer} from 'react-router-bootstrap'
 import AnimalCartCard from '../Animal/AnimalCartCard'
 import {fetchUserCart, submitCartOrder} from '../../store/'
 import {AddressForm, AddressCard} from '../'
@@ -12,7 +13,9 @@ import {AddressForm, AddressCard} from '../'
 class Cart extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      Shipping: 0.0
+    }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -77,29 +80,32 @@ class Cart extends Component {
   }
 
   render() {
-    const firstCartItem = this.props.cart[0]
-
-    let address
-
-    if (firstCartItem) {
-      console.log(firstCartItem.user.address)
-      address = firstCartItem.user.address
-    }
-
     var formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
     })
 
+    let address
+
+    if (this.props.isLoggedIn) {
+      address = this.props.user.address
+    }
+
     const animals = this.props.cart.map(function(cartItem) {
       return cartItem.animal
     })
 
-    const cartCost = this.props.cart.reduce(function(total, cartItem) {
-      return Number(total + cartItem.animal.cost * cartItem.quantity)
-    }, 0)
+    let cartCost
 
-    const tax = (cartCost + this.state.Shipping) * 0.15
+    if (this.props.cart) {
+      cartCost = this.props.cart
+        .reduce(function(total, cartItem) {
+          return Number(total + cartItem.animal.cost * cartItem.quantity)
+        }, 0)
+        .toFixed(2)
+    }
+
+    let tax = ((cartCost + this.state.Shipping) * 0.15).toFixed(2)
 
     return (
       <div>
@@ -183,36 +189,42 @@ class Cart extends Component {
                 <h5 className="card-header card-text">Order Summary</h5>
                 <div className="card-body">
                   <p>
-                    <strong>Cart Total:</strong> ${cartCost}
+                    <strong>Cart Total:</strong> {formatter.format(cartCost)}
                   </p>
                   <p>
-                    <strong>Shipping Cost: </strong>${this.state.Shipping
-                      ? this.state.Shipping
-                      : 0.0}
+                    <strong>Shipping Cost: </strong>
+                    {this.state.Shipping
+                      ? formatter.format(this.state.Shipping)
+                      : formatter.format(0)}
                   </p>
                   <p>
-                    <strong>Tax: </strong>${tax ? tax : 0.0}
+                    <strong>Tax: </strong>
+                    {tax ? formatter.format(tax) : 0.0}
                   </p>
                   <p>
-                    <strong>Grand Total: </strong>${(
+                    <strong>Grand Total: </strong>
+                    {formatter.format(
                       Number(this.state.Shipping) +
-                      Number(cartCost) +
-                      Number(tax)
-                    ).toFixed(2)}
+                        Number(cartCost) +
+                        Number(tax)
+                    )}
                   </p>
                 </div>
               </div>
+              {/* formatter.format(2500) */}
 
               <br />
               <br />
 
-              <a
-                href="#"
-                className="btn btn-primary"
-                onClick={() => this.handleSubmit()}
-              >
-                Submit Order
-              </a>
+              <LinkContainer to="/confirmation">
+                <a
+                  href="#"
+                  className="btn btn-primary"
+                  onClick={() => this.handleSubmit()}
+                >
+                  Submit Order
+                </a>
+              </LinkContainer>
 
               <br />
               <br />
@@ -225,7 +237,9 @@ class Cart extends Component {
 }
 
 const mapStateToProps = state => ({
-  cart: state.cart
+  cart: state.cart,
+  isLoggedIn: !!state.user.id,
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => ({

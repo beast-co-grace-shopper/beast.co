@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-
 import {
   AllAnimals,
   AllOrders,
   Cart,
+  Confirmation,
   Login,
   Signup,
   SingleAnimal,
@@ -68,6 +68,7 @@ class Routes extends Component {
           )}
         />
         <Route path="/cart" component={Cart} />
+        <Route path="/confirmation" component={Confirmation} />
         <Route path="/animal/:id" component={SingleAnimal} />
         {isLoggedIn && (
           <Switch>

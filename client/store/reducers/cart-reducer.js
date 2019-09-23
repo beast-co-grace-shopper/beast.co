@@ -14,7 +14,7 @@ const cartReducer = (state = [], action) => {
     }
 
     case ADD_ANIMAL_TO_CART: {
-      return [...state, action.animal]
+      return action.animal
     }
 
     case REMOVE_ANIMAL_FROM_CART: {
