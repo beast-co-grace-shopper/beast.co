@@ -18,6 +18,28 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.put('/', async (req, res, next) => {
+  try {
+    const email = req.body.email
+    const password = req.body.password
+
+    const address = req.body.address
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const city = req.body.city
+    const zip = req.body.zip
+    const state = req.body.state
+
+    const {data} = await User.update(
+      {address, firstName, lastName, city, zip, state},
+      {where: {email, password}}
+    )
+    res.json(data)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 router.put('/login', (req, res, next) => {
   User.findOne({
     where: {
