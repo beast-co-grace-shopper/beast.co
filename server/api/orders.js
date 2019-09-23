@@ -19,6 +19,25 @@ router.param('id', async (req, res, next, id) => {
   }
 })
 
+const onlyAdmins = async (req, res, next) => {
+  if (!req.user || !req.user.isAdmin) {
+    res.sendStatus(401)
+  } else {
+    next()
+  }
+}
+
+// app.use(onlyAdmins)
+
+router.get('/', onlyAdmins, async (req, res, next) => {
+  try {
+    const allOrders = await Order.findAll()
+    res.json(allOrders)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:id', (req, res, next) => {
   res.status(201).json(req.order)
 })
