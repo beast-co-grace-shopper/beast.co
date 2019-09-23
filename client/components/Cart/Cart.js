@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
-import AnimalCard from '../Animal/AnimalCard'
+import AnimalCartCard from '../Animal/AnimalCartCard'
 import {fetchUserCart, submitCartOrder} from '../../store/'
 import {AddressForm, AddressCard} from '../'
 
