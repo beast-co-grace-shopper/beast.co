@@ -6,8 +6,9 @@ import user from './user'
 import animals from './reducers/animal-reducer'
 import categories from './reducers/category-reducer'
 import cart from './reducers/cart-reducer'
+import orders from './reducers/order-reducer'
 
-const reducer = combineReducers({animals, categories, user, cart})
+const reducer = combineReducers({animals, categories, user, cart, orders})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -19,3 +20,4 @@ export * from './actions/animal-actions'
 export * from './actions/category-actions'
 export * from './actions/cart-actions'
 export * from './actions/review-actions'
+export * from './actions/order-actions'
