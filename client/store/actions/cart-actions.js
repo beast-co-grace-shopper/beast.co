@@ -34,9 +34,9 @@ export const updateANIMAL = animal => ({
   animal
 })
 
-export const submitOrder = confirmation => ({
+export const submitOrder = order => ({
   type: SUBMIT_ORDER,
-  confirmation
+  order
 })
 
 //THUNK CREATORS
