@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+
+const HttpError = require('../utils/HttpError')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -55,5 +57,24 @@ router.get('/me', async (req, res, next) => {
     }
   } catch (err) {
     next(err)
+  }
+})
+
+router.get('/:userId/orders', async (req, res, next) => {
+  try {
+    const requestUserId = Number(req.params.userId)
+    if (!req.user || req.user.id !== requestUserId) {
+      throw new HttpError(401, 'ERROR: user not logged in or invalid')
+    }
+
+    const userOrders = await User.findUserOrders(requestUserId)
+    if (userOrders) {
+      console.log('found user orders: ', userOrders)
+      res.status(200).json(userOrders)
+    } else {
+      throw new HttpError(500, 'ERROR: failed to GET user orders')
+    }
+  } catch (error) {
+    next(error)
   }
 })

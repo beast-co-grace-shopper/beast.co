@@ -48,6 +48,8 @@ Order.hasMany(AnimalOrder, {as: 'cart'})
 AnimalOrder.belongsTo(Animal)
 
 // --[ Helper Methods Requiring Multiple Models ]------------------------------
+//
+// --[ Cart/User Helper Methods ]--
 Cart.findUsersCart = function(userId) {
   return Cart.findAll({
     where: {userId: userId},
@@ -58,6 +60,26 @@ Cart.findUsersCart = function(userId) {
 Cart.destroyUsersCart = function(userId) {
   return Cart.destroy({
     where: {userId: userId}
+  })
+}
+
+// --[ Order/User Helper Methods ]--
+User.findUserOrders = function(userId) {
+  return Order.findAll({
+    where: {
+      userId: userId
+    },
+    include: [
+      {
+        model: AnimalOrder,
+        as: 'cart',
+        include: [
+          {
+            model: Animal
+          }
+        ]
+      }
+    ]
   })
 }
 
