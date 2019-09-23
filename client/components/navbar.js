@@ -19,7 +19,8 @@ import {
   logout,
   fetchCategories,
   filterAnimalCategories,
-  searchForAnimals
+  searchForAnimals,
+  fetchOrdersForUser
 } from '../store'
 
 const DEFAULT_CATEGORY_TITLE = 'All Animals'
@@ -63,6 +64,12 @@ class Navigation extends Component {
 
   handleControlMenu = eventKey => {
     switch (eventKey) {
+      case 'orders':
+        console.log('got an orders request for: ', this.props.loggedInUser)
+        this.props.fetchOrdersForUser(this.props.loggedInUser)
+        this.props.history.push(`/users/${this.props.loggedInUser}/orders`)
+        break
+
       case 'signout':
         this.props.handleLogout()
         break
@@ -166,11 +173,6 @@ class Navigation extends Component {
                 </Nav.Link>
               </LinkContainer>
             </Nav.Item>
-            <Nav.Item>
-              <LinkContainer to="/users/:userId/orders">
-                <Nav.Link className="font-weight-bold">Orders</Nav.Link>
-              </LinkContainer>
-            </Nav.Item>
 
             <NavDropdown
               alignRight
@@ -208,6 +210,7 @@ class Navigation extends Component {
  */
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
+  loggedInUser: state.user.id,
   categories: state.categories
 })
 
@@ -216,15 +219,8 @@ const mapDispatch = dispatch => ({
   fetchCategories: () => dispatch(fetchCategories()),
   filterAnimalCategories: category =>
     dispatch(filterAnimalCategories(category)),
-  searchForAnimals: animal => dispatch(searchForAnimals(animal))
+  searchForAnimals: animal => dispatch(searchForAnimals(animal)),
+  fetchOrdersForUser: userId => dispatch(fetchOrdersForUser(userId))
 })
 
 export default withRouter(connect(mapState, mapDispatch)(Navigation))
-
-/**
- * PROP TYPES
- */
-// Navigation.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }

@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import SingleAnimal from './components/Animal/SingleAnimal'
 import {
+  AllAnimals,
+  AllOrders,
+  Cart,
+  Confirmation,
   Login,
   Signup,
-  UserHome,
-  AllAnimals,
-  Cart,
-  Confirmation
+  SingleAnimal,
+  UserHome
 } from './components'
 import {me, fetchAnimals} from './store'
 import {fetchUserCart} from './store/actions/cart-actions'
@@ -73,6 +74,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/users/:userId/orders" component={AllOrders} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
