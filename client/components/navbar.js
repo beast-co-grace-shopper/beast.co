@@ -2,15 +2,18 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
 import {LinkContainer} from 'react-router-bootstrap'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Figure from 'react-bootstrap/Figure'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import NavDropdown from 'react-bootstrap/NavDropdown'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faSearch, faShoppingCart} from '@fortawesome/free-solid-svg-icons'
 
 import {
   logout,
@@ -19,137 +22,184 @@ import {
   searchForAnimals
 } from '../store'
 
+const DEFAULT_CATEGORY_TITLE = 'All Animals'
+
 class Navigation extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      categoryTitle: DEFAULT_CATEGORY_TITLE,
+      searchString: ''
+    }
+  }
+
   componentDidMount() {
     this.props.fetchCategories()
   }
 
   handleSearch = event => {
-    const searchString = event.target.searchFor.value
     event.preventDefault()
-    // this.props.searchForAnimals(searchString)
-    this.props.history.push(`/animals?search=${searchString}`)
+    this.props.history.push(`/animals?search=${this.state.searchString}`)
+    this.setState({
+      categoryTitle: DEFAULT_CATEGORY_TITLE
+    })
   }
 
   handleCategorize = eventKey => {
     // this.props.filterAnimalCategories(eventKey)
+    this.setState({
+      categoryTitle: eventKey,
+      searchString: ''
+    })
     this.props.history.push(`/animals?category=${eventKey}`)
+  }
+
+  handleSearchEntry = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleControlMenu = eventKey => {
+    switch (eventKey) {
+      case 'signout':
+        this.props.handleLogout()
+        break
+
+      case 'signin':
+        this.props.history.push('/login')
+        break
+
+      case 'signup':
+        this.props.history.push('/signup')
+        break
+
+      default:
+        console.error('ERROR: invalid menu option selected: ', eventKey)
+    }
   }
 
   render() {
     const categories = this.props.categories
 
     return (
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Row>
-            <Col>
-              <Nav.Item>
-                <LinkContainer to="/home">
-                  <Navbar.Brand>
-                    <img
-                      src="/images/beastCo.png"
-                      width="100"
-                      height="90"
-                      className="d-inline-block align-center"
-                      alt="beast.co logo"
-                    />
-                    {'beast.co'}
-                  </Navbar.Brand>
-                </LinkContainer>
-              </Nav.Item>
-            </Col>
+      <React.Fragment>
+        {/* branding and search controls... */}
+        <Navbar className="pb-0" bg="dark" variant="dark">
+          <LinkContainer to="/home">
+            <Navbar.Brand className="py-0">
+              <Figure className="d-flex align-items-center mb-0">
+                <Figure.Image
+                  alt="beast.co logo"
+                  className="mb-0"
+                  color="#fd7e14"
+                  height={25}
+                  src="/images/beastCo.png"
+                  width={60}
+                />
+                <Figure.Caption
+                  className="d-flex align-items-center pl-3 logo"
+                  style={{fontSize: '1.5em', color: '#fd7e14'}}
+                >
+                  beast.co
+                </Figure.Caption>
+              </Figure>
+            </Navbar.Brand>
+          </LinkContainer>
 
-            <Col sm="8">
-              <Row>
-                <Col>
-                  <Nav fill className="justify-content-left">
-                    <Nav.Item>
-                      <Dropdown
-                        name="category"
-                        onSelect={this.handleCategorize}
-                      >
-                        <Dropdown.Toggle variant="primary">All</Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          {categories &&
-                            categories.map(category => (
-                              <Dropdown.Item
-                                key={category.id}
-                                eventKey={category.category}
-                              >
-                                {category.category}
-                              </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Nav.Item>
+          <DropdownButton
+            className="ml-auto"
+            id="nav-category"
+            name="category"
+            onSelect={this.handleCategorize}
+            size="sm"
+            title={this.state.categoryTitle}
+            variant="success"
+          >
+            {categories &&
+              categories.map(category => (
+                <Dropdown.Item key={category.id} eventKey={category.category}>
+                  {category.category}
+                </Dropdown.Item>
+              ))}
+          </DropdownButton>
 
-                    <Nav.Item>
-                      <Form onSubmit={this.handleSearch} inline>
-                        <Form.Row>
-                          <Col>
-                            <FormControl
-                              name="searchFor"
-                              placeholder="Search"
-                              type="text"
-                            />
-                          </Col>
+          <Form className="pl-2" inline onSubmit={this.handleSearch}>
+            <InputGroup size="sm">
+              <FormControl
+                name="searchString"
+                onChange={this.handleSearchEntry}
+                placeholder="Search for animals..."
+                type="text"
+                value={this.state.searchString}
+              />
+              <InputGroup.Append>
+                <Button type="submit" variant="outline-success">
+                  <FontAwesomeIcon icon={faSearch} />
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </Form>
+        </Navbar>
 
-                          <Col>
-                            <Button type="submit" variant="outline-info">
-                              Search
-                            </Button>
-                          </Col>
-                        </Form.Row>
-                      </Form>
-                    </Nav.Item>
-                  </Nav>
-                </Col>
-              </Row>
+        {/* site navigation... */}
+        <Navbar className="pt-0" bg="dark" variant="dark">
+          {/* main menu items... */}
+          <Nav className="border-right border-secondary ml-auto">
+            <Nav.Item>
+              <LinkContainer to="/animals">
+                <Nav.Link>Our Zoo</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+          </Nav>
 
-              <Row>
-                <Col>
-                  <Nav className="justify-content-start">
-                    <Nav.Item>
-                      <LinkContainer to="/home">
-                        <Nav.Link>HOME</Nav.Link>
-                      </LinkContainer>
-                    </Nav.Item>
+          {/* control menu items... */}
+          <Nav className="ml-2">
+            <Nav.Item>
+              <LinkContainer to="/cart">
+                <Nav.Link>
+                  <FontAwesomeIcon
+                    className="font-size-larger"
+                    icon={faShoppingCart}
+                  />
+                </Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+            <Nav.Item>
+              <LinkContainer to="/users/:userId/orders">
+                <Nav.Link className="font-weight-bold">Orders</Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
 
-                    <Nav.Item>
-                      <LinkContainer to="/animals">
-                        <Nav.Link>ANIMALS</Nav.Link>
-                      </LinkContainer>
-                    </Nav.Item>
-                    {this.props.isLoggedIn ? (
-                      <Nav.Item>
-                        <LinkContainer to="#">
-                          <Nav.Link onSelect={this.props.handleClick}>
-                            LOGOUT
-                          </Nav.Link>
-                        </LinkContainer>
-                      </Nav.Item>
-                    ) : (
-                      <div>
-                        <Nav.Item>
-                          <LinkContainer to="/login">
-                            <Nav.Link>LOGIN</Nav.Link>
-                          </LinkContainer>
-                        </Nav.Item>
-                        <Nav.Item>
-                          <LinkContainer to="/signup">
-                            <Nav.Link>SIGN UP</Nav.Link>
-                          </LinkContainer>
-                        </Nav.Item>
-                      </div>
-                    )}
-                  </Nav>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </Navbar>
+            <NavDropdown
+              alignRight
+              className="font-weight-bold"
+              onSelect={this.handleControlMenu}
+              title="Your Account"
+            >
+              {this.props.isLoggedIn ? (
+                <div>
+                  <NavDropdown.Item eventKey="account">
+                    Your Account
+                  </NavDropdown.Item>
+                  <NavDropdown.Item eventKey="orders">
+                    Your Orders
+                  </NavDropdown.Item>
+                  <NavDropdown.Item eventKey="signout">
+                    Sign Out
+                  </NavDropdown.Item>
+                </div>
+              ) : (
+                <div>
+                  <NavDropdown.Item eventKey="signin">Sign in</NavDropdown.Item>
+                  <NavDropdown.Item eventKey="signup">Sign up</NavDropdown.Item>
+                </div>
+              )}
+            </NavDropdown>
+          </Nav>
+        </Navbar>
+      </React.Fragment>
     )
   }
 }
@@ -162,7 +212,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  handleClick: () => dispatch(logout()),
+  handleLogout: () => dispatch(logout()),
   fetchCategories: () => dispatch(fetchCategories()),
   filterAnimalCategories: category =>
     dispatch(filterAnimalCategories(category)),
