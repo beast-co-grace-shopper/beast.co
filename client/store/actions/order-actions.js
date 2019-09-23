@@ -1,12 +1,18 @@
 import axios from 'axios'
 
 //ACTION TYPES
-const SET_ORDERS_FOR_USER = 'SET_ORDERS_FOR_USER'
+export const SET_USER_ORDERS = 'SET_ORDERS_FOR_USER'
+export const SET_ORDER = 'SET_ORDER'
 
 //ACTION CREATORS
-export const setOrdersForUser = orders => ({
-  type: SET_ORDERS_FOR_USER,
-  orders
+export const setOrdersForUser = allUserOrders => ({
+  type: SET_USER_ORDERS,
+  allUserOrders
+})
+
+export const setOrder = order => ({
+  type: SET_ORDER,
+  order
 })
 
 //THUNK CREATORS
