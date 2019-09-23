@@ -4,21 +4,21 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 
-const AnimalCard = ({animal}) => {
+const AnimalCard = props => {
   return (
     <Container className="card">
       <Row>
         <Col>
           <Image
-            src={animal.photo}
+            src={props.animal.photo}
             style={{height: '100px', width: '100px'}}
             fluid
           />
         </Col>
         <Col>
-          <h1>{animal.name}</h1>
+          <h1>{props.animal.name}</h1>
           <p>Animal review...</p>
-          <p>Price: ${animal.cost}</p>
+          <p>Price: ${props.animal.cost}</p>
         </Col>
       </Row>
     </Container>

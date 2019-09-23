@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
-import AnimalCard from '../Animal/AnimalCard'
+import AnimalCartCard from '../Animal/AnimalCartCard'
 import {fetchUserCart, submitCartOrder} from '../../store/'
 import {AddressForm, AddressCard} from '../'
 
@@ -56,6 +56,23 @@ class Cart extends Component {
       }
     }
 
+    if (!registeredUser) {
+      const checkoutUser = this.props.cart[0].user
+
+      newOrder = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        address: this.state.address,
+        address2: this.state.address2,
+        city: this.state.city,
+        state: this.state.state,
+        zip: this.state.zip,
+        deliveryType: shipType,
+        userid: checkoutUser.id
+      }
+    }
+
     this.props.submitCartOrder(newOrder)
   }
 
@@ -96,7 +113,10 @@ class Cart extends Component {
                   {animals && animals.length
                     ? animals.map(animal => (
                         <div key={animal.id}>
-                          <AnimalCard animal={animal} />
+                          <AnimalCartCard
+                            animal={animal}
+                            cart={this.props.cart}
+                          />
                           <br />
                         </div>
                       ))
