@@ -5,8 +5,13 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
 import OrderRow from './OrderRow'
+import {fetchOrdersForUser} from '../../store'
 
 class AllOrders extends Component {
+  componentDidMount() {
+    this.props.fetchOrdersForUser(this.props.loggedInUser)
+  }
+
   render() {
     let orders = this.props.orders
 
@@ -26,7 +31,12 @@ class AllOrders extends Component {
 }
 
 const mapStateToProps = state => ({
+  loggedInUser: state.user.id,
   orders: state.orders.allUserOrders
 })
 
-export default connect(mapStateToProps)(AllOrders)
+const mapDispatchToProps = dispatch => ({
+  fetchOrdersForUser: userId => dispatch(fetchOrdersForUser(userId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllOrders)

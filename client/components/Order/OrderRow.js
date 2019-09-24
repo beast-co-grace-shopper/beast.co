@@ -1,18 +1,31 @@
 import React from 'react'
-import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
 
+const calculateShipping = shippingType => {
+  switch (shippingType) {
+    case 'Standard':
+      return 500
+    case 'Express':
+      return 1000
+    case 'Overnight':
+      return 5000
+    default:
+      return 0
+  }
+}
 const OrderRow = ({order}) => {
   const orderDate = new Date(order.purchaseDate)
-  const orderTotal =
+  const orderSubtotal =
     order &&
     order.cart
       .reduce((total, {purchasePrice, quantity}) => {
         return Number(total + purchasePrice * quantity)
       }, 0)
       .toFixed(2)
+  const subtotal = Number(orderSubtotal)
+  const shipping = calculateShipping(order.deliveryType)
+  const tax = (subtotal + shipping) * 0.15
+  const grandTotal = subtotal + shipping + tax
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
@@ -34,7 +47,7 @@ const OrderRow = ({order}) => {
             <td>
               {`${orderDate.toLocaleDateString()}@${orderDate.toLocaleTimeString()}`}
             </td>
-            <td>{formatter.format(orderTotal)}</td>
+            <td>{formatter.format(orderSubtotal)}</td>
             <td>{`${order.firstName} ${order.lastName}`}</td>
             <td>{order.id}</td>
           </tr>
@@ -46,7 +59,6 @@ const OrderRow = ({order}) => {
           <tr>
             <th>Shipping Address</th>
             <th>Payment Method</th>
-            <th>Order Summary</th>
           </tr>
         </thead>
         <tbody>
@@ -64,7 +76,7 @@ const OrderRow = ({order}) => {
             <td>TBD</td>
             <td>
               <ul className="list-unstyled">
-                <li>Item(s) Subtotal: {formatter.format(orderTotal)}</li>
+                <li>Item(s) Subtotal: {formatter.format(orderSubtotal)}</li>
               </ul>
             </td>
           </tr>
@@ -77,7 +89,7 @@ const OrderRow = ({order}) => {
             <th>Item</th>
             <th>Quantity</th>
             <th>Purchase Price</th>
-            <th>Subtotal</th>
+            <th>Total(s)</th>
           </tr>
         </thead>
         <tbody>
@@ -91,6 +103,24 @@ const OrderRow = ({order}) => {
               </td>
             </tr>
           ))}
+          <tr>
+            <td />
+            <td />
+            <td className="text-right font-weight-bold">Shipping Cost</td>
+            <td>{formatter.format(shipping)}</td>
+          </tr>
+          <tr>
+            <td />
+            <td />
+            <td className="text-right font-weight-bold">Tax</td>
+            <td>{formatter.format(tax)}</td>
+          </tr>
+          <tr>
+            <td />
+            <td />
+            <td className="text-right font-weight-bold">Grand Total</td>
+            <td className="font-weight-bold">{formatter.format(grandTotal)}</td>
+          </tr>
         </tbody>
       </Table>
     </React.Fragment>

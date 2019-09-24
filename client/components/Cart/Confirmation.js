@@ -28,7 +28,10 @@ class Confirmation extends Component {
 
     if (cart) {
       orderArray = cart.map(function(el) {
-        return `${el.animal.name} x ${el.quantity}`
+        return {
+          key: el.id,
+          item: `${el.animal.name} x ${el.quantity}`
+        }
       })
     }
 
@@ -88,9 +91,13 @@ class Confirmation extends Component {
                     </Col>
                     <Col>
                       <h5>Purchase Details: </h5>
-                      {orderArray
-                        ? orderArray.map(el => <div key={el.id}>{el}</div>)
-                        : ''}
+                      <ul className="list-unstyled">
+                        {orderArray
+                          ? orderArray.map(el => (
+                              <li key={el.key}>{el.item}</li>
+                            ))
+                          : ''}
+                      </ul>
                     </Col>
                   </Row>
                 </Row>

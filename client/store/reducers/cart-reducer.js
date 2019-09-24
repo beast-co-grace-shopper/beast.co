@@ -7,6 +7,8 @@ import {
   SUBMIT_ORDER
 } from '../actions/cart-actions'
 
+import {SET_ORDER} from '../actions/order-actions'
+
 const cartReducer = (state = [], action) => {
   switch (action.type) {
     case FETCH_CART: {
@@ -33,7 +35,8 @@ const cartReducer = (state = [], action) => {
       return [...cartItemsWithNoUpdate, action.animal]
     }
 
-    case SUBMIT_ORDER: {
+    case SUBMIT_ORDER:
+    case SET_ORDER: {
       return []
     }
 
