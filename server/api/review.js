@@ -7,8 +7,19 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
-    await Review.create(req.body)
+    const newReview = await Review.create(req.body)
+    res.status(201).json(newReview)
   } catch (err) {
     console.log(err)
+  }
+})
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const allReviews = await Review.findAll({where: {animalId: req.params.id}})
+
+    res.send(allReviews)
+  } catch (e) {
+    next(e)
   }
 })

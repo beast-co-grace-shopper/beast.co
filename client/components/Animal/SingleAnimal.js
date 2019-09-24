@@ -5,6 +5,9 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
+import AnimalReview from './AnimalReview'
+import {getReviewByAnimalId} from '../../store'
+// import StarRatings from './react-star-ratings';
 
 import {
   addAnimalToCart,
@@ -17,8 +20,17 @@ class SingleAnimal extends Component {
     this.state = {
       Quantity: 0,
       Price: '$0',
-      alreadyInCart: false
+      alreadyInCart: false,
+      clicked: false
     }
+
+    this.handleClick = this.handleClick.bind(this)
+    this.reviewSubmit = this.reviewSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.getReviewByAnimalId(this.props.match.params.id)
   }
 
   changeQuantity(event) {
@@ -59,11 +71,59 @@ class SingleAnimal extends Component {
     }
   }
 
+  handleClick() {
+    this.setState({
+      clicked: true
+    })
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  reviewSubmit() {
+    //create review object
+
+    const singleAnimal = this.props.animals.filter(
+      CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
+    )
+
+    const newReview = {
+      title: this.state.title,
+      description: this.state.description,
+      rating: this.state.rating,
+      animalId: singleAnimal[0].id,
+      userId: this.props.user.id
+    }
+
+    this.props.postReview(newReview)
+  }
+
   //this.props.user returns the user info
 
   render() {
     let animal = this.props.animals.filter(
       CurrentAnimal => CurrentAnimal.id == this.props.match.params.id
+    )
+
+    const reviewArr = this.props.reviews.reviews
+
+    let sum = reviewArr.reduce(function(total, review) {
+      return total + Number(review.rating)
+    }, 0)
+
+    let average = sum / reviewArr.length
+
+    console.log(average)
+
+    let reviewForm = (
+      <AnimalReview
+        animal={animal[0]}
+        handleChange={this.handleChange}
+        reviewSubmit={this.reviewSubmit}
+      />
     )
 
     return (
@@ -126,6 +186,23 @@ class SingleAnimal extends Component {
                     </Button>
                   </Col>
                 </Row>
+
+                <Row>
+                  <div>Average Customer Rating:</div>
+                  <div>{average.toFixed(2)}</div>
+                </Row>
+
+                <Row>
+                  {this.props.user.id ? (
+                    <div style={{display: 'inline-block'}}>
+                      <div onClick={() => this.handleClick()}>
+                        {this.state.clicked ? reviewForm : `Leave Review`}
+                      </div>
+                    </div>
+                  ) : (
+                    <div>Register to Leave a Review</div>
+                  )}
+                </Row>
               </Col>
             </Row>
           </Container>
@@ -141,7 +218,8 @@ const mapStateToProps = state => {
   return {
     cart: state.cart,
     animals: state.animals,
-    user: state.user
+    user: state.user,
+    reviews: state.reviews
   }
 }
 
@@ -149,7 +227,8 @@ const mapDispatchToProps = dispatch => ({
   addAnimalToCart: (animal, user, quantity) =>
     dispatch(addAnimalToCart(animal, user, quantity)),
   updateAnimalInCart: (animal, user, quantity) =>
-    dispatch(updateAnimalInCart(animal, user, quantity))
+    dispatch(updateAnimalInCart(animal, user, quantity)),
+  getReviewByAnimalId: id => dispatch(getReviewByAnimalId(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleAnimal)
