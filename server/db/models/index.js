@@ -83,6 +83,22 @@ User.findUserOrders = function(userId) {
   })
 }
 
+User.findAllOrders = function() {
+  return Order.findAll({
+    include: [
+      {
+        model: AnimalOrder,
+        as: 'cart',
+        include: [
+          {
+            model: Animal
+          }
+        ]
+      }
+    ]
+  })
+}
+
 module.exports = {
   User,
   Animal,

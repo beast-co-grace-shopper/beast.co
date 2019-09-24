@@ -19,6 +19,15 @@ router.param('id', async (req, res, next, id) => {
   }
 })
 
+router.get('/allOrders', async (req, res, next) => {
+  try {
+    const orders = await User.findAllOrders()
+    res.send(orders)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 router.get('/:id', (req, res, next) => {
   res.status(201).json(req.order)
 })
