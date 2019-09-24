@@ -17,7 +17,6 @@ class Orders extends Component {
     return (
       <div className="card">
         <h5 className="card-header card-text">Manage Orders </h5>
-        <Button className="ml-auto">Save</Button>
         {orders && orders.length
           ? orders.map(order => <OrderRow key={order.id} order={order} />)
           : 'There Are No Orders To Manage Yet!'}
