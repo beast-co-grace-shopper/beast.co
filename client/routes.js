@@ -60,7 +60,6 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/admin" component={Admin} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route
@@ -72,9 +71,11 @@ class Routes extends Component {
         <Route path="/cart" component={Cart} />
         <Route path="/confirmation" component={Confirmation} />
         <Route path="/animal/:id" component={SingleAnimal} />
+
+        {/* Routes placed here are only available after logging in */}
         {isLoggedIn && (
           <Switch>
-            {/* Routes placed here are only available after logging in */}
+            <Route path="/admin/orders" component={Admin} />
             <Route path="/home" component={UserHome} />
             <Route path="/users/:userId/orders" component={AllOrders} />
           </Switch>

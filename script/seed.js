@@ -23,9 +23,9 @@ async function seed() {
     city: chance.city(),
     state: chance.state(),
     zip: chance.zip({plusfour: true}),
-    email: 'cody@email.com',
+    email: 'lula@email.com',
     password: '123',
-    admin: true
+    isAdmin: true
   })
   await User.create({
     firstName: chance.first(),
@@ -36,7 +36,7 @@ async function seed() {
     zip: chance.zip({plusfour: true}),
     email: 'murphy@email.com',
     password: '123',
-    admin: false
+    isAdmin: false
   })
   await User.create({
     firstName: chance.first(),
@@ -48,7 +48,7 @@ async function seed() {
     zip: chance.zip({plusfour: true}),
     email: 'admin@admin.com',
     password: 'admin',
-    admin: true
+    isAdmin: false
   })
   await User.create({
     firstName: chance.first(),
@@ -59,7 +59,7 @@ async function seed() {
     zip: chance.zip(),
     email: 'guest@email.com',
     password: '123',
-    admin: false
+    isAdmin: false
   })
   await User.create({
     firstName: chance.first(),
@@ -70,7 +70,7 @@ async function seed() {
     zip: chance.zip(),
     email: 'boyardee@email.com',
     password: 'ravioli',
-    admin: false
+    isAdmin: false
   })
 
   await Animal.create({
