@@ -1,8 +1,13 @@
-import {SET_ORDER, SET_USER_ORDERS} from '../actions/order-actions'
+import {
+  SET_ORDER,
+  SET_USER_ORDERS,
+  GET_ALL_ORDERS
+} from '../actions/order-actions'
 
 const initialState = {
   order: {},
-  allUserOrders: []
+  allUserOrders: [],
+  allOrders: []
 }
 
 const orderReducer = (state = initialState, action) => {
@@ -13,6 +18,10 @@ const orderReducer = (state = initialState, action) => {
 
     case SET_USER_ORDERS: {
       return {...state, allUserOrders: action.allUserOrders}
+    }
+
+    case GET_ALL_ORDERS: {
+      return {...state, allOrders: [...action.orders]}
     }
 
     default:

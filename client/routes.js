@@ -9,7 +9,11 @@ import {
   Login,
   Signup,
   SingleAnimal,
-  UserHome
+  UserHome,
+  Admin,
+  Orders,
+  Users,
+  Products
 } from './components'
 import {me, fetchAnimals} from './store'
 import {fetchUserCart} from './store/actions/cart-actions'
@@ -70,9 +74,13 @@ class Routes extends Component {
         <Route path="/cart" component={Cart} />
         <Route path="/confirmation" component={Confirmation} />
         <Route path="/animal/:id" component={SingleAnimal} />
+
+        {/* Routes placed here are only available after logging in */}
         {isLoggedIn && (
           <Switch>
-            {/* Routes placed here are only available after logging in */}
+            <Route path="/admin/orders" component={Orders} />
+            <Route path="/admin/users" component={Users} />
+            <Route path="/admin/products" component={Products} />
             <Route path="/home" component={UserHome} />
             <Route path="/users/:userId/orders" component={AllOrders} />
           </Switch>
