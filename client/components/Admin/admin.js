@@ -6,10 +6,10 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import {fetchAllOrders} from '../store'
-import {fetchUsersInfo} from '../store/user'
-import OrderRow from './Order/OrderRow'
-import AnimalCard from './Animal/AnimalCard'
+import {fetchAllOrders} from '../../store'
+import {fetchUsersInfo} from '../../store/user'
+import OrderRow from '../Order/OrderRow'
+import AnimalCard from '../Animal/AnimalCard'
 
 /**
  * COMPONENT
