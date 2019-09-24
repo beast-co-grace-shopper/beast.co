@@ -29,7 +29,7 @@ class Users extends Component {
         </Row>
         {users && users.length ? (
           users.map(user => (
-            <Row key={user.id}>
+            <Row className="border-top border-secondary pt-1" key={user.id}>
               <Col sm={1}>
                 <strong>{user.id}</strong>
               </Col>
