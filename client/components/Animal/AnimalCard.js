@@ -12,14 +12,7 @@ class AnimalCard extends Component {
     this.state = {}
   }
 
-  // componentDidMount(){
-  //   this.props.getAverageRating(this.props.animal.id);
-  // }
-
   render() {
-    // let rating = this.props.getAverageRating(this.props.animal.id)
-    // console.log(rating)
-
     return (
       <Container className="card">
         <Row>
