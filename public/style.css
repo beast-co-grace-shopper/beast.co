@@ -25,3 +25,10 @@ label {
 .logo {
   font-family: 'Fredoka One', cursive;
 }
+
+.link {
+  color: black;
+}
+.link:hover {
+  color: black;
+}

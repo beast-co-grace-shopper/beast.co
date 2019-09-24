@@ -49,7 +49,12 @@ class AllAnimals extends Component {
         <div>
           {animals && animals.length
             ? animals.map(animal => (
-                <Link to={`/animal/${animal.id}`} key={animal.id}>
+                <Link
+                  to={`/animal/${animal.id}`}
+                  className="link"
+                  key={animal.id}
+                  style={{textDecoration: 'none'}}
+                >
                   <AnimalCard animal={animal} />
                 </Link>
               ))

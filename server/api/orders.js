@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
       throw new HttpError(500, 'ERROR: failed to find cart for user')
     }
 
-    console.log('got the following order from client: ', req.body)
+    // console.log('got the following order from client: ', req.body)
     // ensure that the user id, determined for this session, is associated
     // with the new order...
     req.body.userId = userId
@@ -50,7 +50,7 @@ router.post('/', async (req, res, next) => {
     if (!newOrder) {
       throw new HttpError(500, 'ERROR: failed to create order for user')
     }
-    console.log('created new order: ', newOrder)
+    // console.log('created new order: ', newOrder)
 
     // move cart contents to animalOrders...
     const animalOrderData = usersCart.map(item => ({
@@ -66,7 +66,7 @@ router.post('/', async (req, res, next) => {
     if (!animalOrders.length) {
       throw new HttpError(500, 'ERROR: failed to create all animal orders')
     }
-    console.log('created animal orders', animalOrders)
+    // console.log('created animal orders', animalOrders)
     // add the ordered items to the new order, for the client confirmation
     // dialog...
     const orderWithCart = await newOrder.reload({
@@ -83,8 +83,8 @@ router.post('/', async (req, res, next) => {
       ]
     })
 
-    console.log('order with cart: ', orderWithCart)
-    console.log('cart: ', orderWithCart.cart)
+    // console.log('order with cart: ', orderWithCart)
+    // console.log('cart: ', orderWithCart.cart)
 
     // destroy cart contents (for future purchases)...
     const destroyedCartItemCount = await Cart.destroyUsersCart(userId)
