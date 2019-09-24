@@ -106,19 +106,16 @@ export const filterAnimalCategories = category => async dispatch => {
   }
 }
 
-// export const postAnimal = (newAnimal, history) =>
-//   async (dispatch) => {
-//     try {
-//       const response = await axios.post('/api/animals', newAnimal);
-//       const createdAnimal = response.data;
-
-//       dispatch(addAnimal(createdAnimal));
-//       history.push(`/animals/${createdAnimal.id}`);
-//     }
-//     catch (error) {
-//       console.error('Failed to POST /api/animals');
-//     }
-//   };
+export const postAnimal = newAnimal => async dispatch => {
+  console.log('new Animal', newAnimal)
+  try {
+    const response = await axios.post('/api/animals', newAnimal)
+    const createdAnimal = response.data
+    dispatch(addAnimal(createdAnimal))
+  } catch (error) {
+    console.error('Failed to POST /api/animals')
+  }
+}
 
 export const deleteAnimal = animalId => async dispatch => {
   try {

@@ -37,6 +37,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
+    console.log('req', req.body)
     const newAnimal = await Animal.create(req.body)
     if (newAnimal) {
       res.status(201).json(newAnimal)
@@ -58,7 +59,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const updatedAnimal = await req.Animal.update(req.body)
+    const updatedAnimal = await Animal.update(req.body)
     if (updatedAnimal) {
       res.status(200).json(updatedAnimal)
     } else {
@@ -71,8 +72,8 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
-    const deleteCount = await req.Animal.destroy()
-    if (deleteCount) {
+    const deleted = await Animal.destroy({where: {id: req.params.id}})
+    if (deleted) {
       res.sendStatus(204)
     } else {
       throw new HttpError(500, 'ERROR: failed to DELETE Animal')
