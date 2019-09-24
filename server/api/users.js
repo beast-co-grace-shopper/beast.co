@@ -12,22 +12,23 @@ const authorizeAdmin = (req, res, next) => {
   }
 }
 
+router.param('userId', async (req, res, next, userId) => {
+  try {
+    const user = await User.findByPk(userId)
+    if (user) {
+      req.requestedUser = user
+      next()
+    } else {
+      throw new HttpError(500, 'ERROR: could not GET user')
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/', authorizeAdmin, async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      attributes: [
-        'id',
-        'email',
-        'address',
-        'address2',
-        'city',
-        'state',
-        'zip',
-        'firstName',
-        'lastName'
-      ]
-    })
-
+    const users = await User.findAllUsers()
     if (users) {
       res.json(users)
     } else {
@@ -35,14 +36,6 @@ router.get('/', authorizeAdmin, async (req, res, next) => {
     }
   } catch (err) {
     next(err)
-  }
-})
-
-router.get('/updateUser', async (req, res, next) => {
-  try {
-    console.log('body', req.body)
-  } catch (err) {
-    console.log(err)
   }
 })
 
@@ -102,9 +95,26 @@ router.put('/me', async (req, res, next) => {
   }
 })
 
+router.delete('/:userId', authorizeAdmin, async (req, res, next) => {
+  try {
+    const deleteCount = await req.requestedUser.destroy()
+    if (deleteCount) {
+      // refetch remaining users and reply with the list of updated users...
+      const users = await User.findAllUsers()
+      if (users) {
+        res.status(200).json(users)
+      } else {
+        throw new HttpError(500, 'ERROR: failed to GET all users')
+      }
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:userId/orders', async (req, res, next) => {
   try {
-    const requestUserId = Number(req.params.userId)
+    const requestUserId = req.requestedUser.id
     if (!req.user || req.user.id !== requestUserId) {
       throw new HttpError(401, 'ERROR: user not logged in or invalid')
     }

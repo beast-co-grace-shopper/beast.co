@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
-import {fetchUsersInfo} from '../../store'
+import {fetchUsersInfo, deleteUser} from '../../store'
 
 /**
  * COMPONENT
@@ -15,9 +15,12 @@ class Users extends Component {
     this.props.fetchUsersInfo()
   }
 
+  handleDelete = userId => {
+    this.props.deleteUser(userId)
+  }
+
   render() {
     const users = this.props.users
-    console.log('users: ', users)
 
     return (
       <Container>
@@ -40,7 +43,9 @@ class Users extends Component {
                 </ul>
               </Col>
               <Col sm={3}>
-                <Button size="sm">DELETE</Button>
+                <Button onClick={() => this.handleDelete(user.id)} size="sm">
+                  DELETE
+                </Button>
               </Col>
             </Row>
           ))
@@ -62,6 +67,7 @@ const mapState = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  deleteUser: userId => dispatch(deleteUser(userId)),
   fetchUsersInfo: () => dispatch(fetchUsersInfo())
 })
 
