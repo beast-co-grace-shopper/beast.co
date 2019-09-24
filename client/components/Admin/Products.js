@@ -1,14 +1,6 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
-import {fetchAllOrders} from '../../store'
-import {fetchUsersInfo} from '../../store/user'
-import OrderRow from '../Order/OrderRow'
 import AnimalCard from '../Animal/AnimalCard'
 
 /**
@@ -18,7 +10,17 @@ class Products extends Component {
   componentDidMount() {}
 
   render() {
-    return ''
+    return (
+      <div className="card">
+        <h5 className="card-header card-text">Manage Products</h5>
+        <Button className="ml-auto">Save</Button>
+        {this.props.animals && this.props.animals.length
+          ? this.props.animals.map(animal => (
+              <AnimalCard animal={animal} key={animal.id} />
+            ))
+          : 'There are no animals in the database...'}
+      </div>
+    )
   }
 }
 
@@ -26,7 +28,9 @@ class Products extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return {}
+  return {
+    animals: state.animals
+  }
 }
 
 const mapDispatchToProps = dispatch => ({})

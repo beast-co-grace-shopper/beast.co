@@ -1,24 +1,28 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import {fetchAllOrders} from '../../store'
-import {fetchUsersInfo} from '../../store/user'
 import OrderRow from '../Order/OrderRow'
-import AnimalCard from '../Animal/AnimalCard'
 
 /**
  * COMPONENT
  */
 class Orders extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.fetchAllOrders()
+  }
 
   render() {
-    return ''
+    let orders = this.props.allOrders
+    return (
+      <div className="card">
+        <h5 className="card-header card-text">Manage Orders </h5>
+        <Button className="ml-auto">Save</Button>
+        {orders && orders.length
+          ? orders.map(order => <OrderRow key={order.id} order={order} />)
+          : 'There Are No Orders To Manage Yet!'}
+      </div>
+    )
   }
 }
 
@@ -26,9 +30,13 @@ class Orders extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  return {}
+  return {
+    allOrders: state.orders.allOrders
+  }
 }
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => ({
+  fetchAllOrders: () => dispatch(fetchAllOrders())
+})
 
 export default connect(mapState, mapDispatchToProps)(Orders)
