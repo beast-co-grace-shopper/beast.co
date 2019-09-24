@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {UserHome} from '../components/user-home'
 
 /**
  * ACTION TYPES
@@ -34,9 +35,7 @@ export const me = () => async dispatch => {
 
 export const update = info => async dispatch => {
   try {
-    console.log('info:', info)
-    const res = await axios.put('/auth/updateUser', info)
-    console.log('res', res)
+    const res = await axios.put('/api/users/me', info)
     dispatch(updateUser(res.data))
   } catch (err) {
     console.log(err)

@@ -18,7 +18,6 @@ export const UserHome = props => {
     evt.preventDefault()
     const formName = 'updateUserInfo'
     const email = user.email
-    const password = evt.target.password.value
 
     let address = ''
     let city = ''
@@ -40,7 +39,6 @@ export const UserHome = props => {
     let info = {
       formName,
       email,
-      password,
       address,
       city,
       state,
@@ -61,22 +59,6 @@ export const UserHome = props => {
           <h5 className="card-header card-text">Update Your Info:</h5>
           <Container className="address-form">
             <Form name="updateUserInfo" onSubmit={handleSubmit}>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridPassword1">
-                  <Row>
-                    <Col>
-                      <Form.Label>Enter Your Password</Form.Label>
-                    </Col>
-                    <Col>* Required Field</Col>
-                  </Row>
-                  <Form.Control
-                    type="password"
-                    placeholder="Enter password"
-                    name="password"
-                  />
-                </Form.Group>
-              </Form.Row>
-
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridFirstName">
                   <Form.Label>First Name</Form.Label>
