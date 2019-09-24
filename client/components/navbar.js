@@ -21,6 +21,7 @@ import {
   filterAnimalCategories,
   searchForAnimals
 } from '../store'
+import NavbarBrand from 'react-bootstrap/NavbarBrand'
 
 const DEFAULT_CATEGORY_TITLE = 'All Animals'
 
@@ -63,7 +64,7 @@ class Navigation extends Component {
   handleControlMenu = eventKey => {
     switch (eventKey) {
       case 'orders':
-        this.props.history.push(`/users/${this.props.loggedInUser}/orders`)
+        this.props.history.push(`/users/${this.props.user.id}/orders`)
         break
 
       case 'signout':
@@ -76,6 +77,10 @@ class Navigation extends Component {
 
       case 'signup':
         this.props.history.push('/signup')
+        break
+
+      case 'adminManageOrders':
+        this.props.history.push('/admin/orders')
         break
 
       default:
@@ -152,7 +157,7 @@ class Navigation extends Component {
           <Nav>
             <Nav.Item className="text-light font-weight-bold">
               {this.props.isLoggedIn
-                ? `Hello, ${this.props.userName}`
+                ? `Hello, ${this.props.user.firstName}`
                 : 'Hello, Guest'}
             </Nav.Item>
           </Nav>
@@ -195,6 +200,20 @@ class Navigation extends Component {
                   <NavDropdown.Item eventKey="signout">
                     Sign Out
                   </NavDropdown.Item>
+                  {this.props.user.isAdmin && (
+                    <div>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item eventKey="adminManageOrders">
+                        Admin: Manage Orders
+                      </NavDropdown.Item>
+                      <NavDropdown.Item eventKey="adminManageAccounts">
+                        Admin: Manage Accounts
+                      </NavDropdown.Item>
+                      <NavDropdown.Item>
+                        Admin: Manage Products
+                      </NavDropdown.Item>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div>
@@ -214,7 +233,7 @@ class Navigation extends Component {
  */
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
-  userName: state.user.firstName,
+  user: state.user,
   categories: state.categories
 })
 

@@ -111,7 +111,7 @@ export default function(state = defaultUser, action) {
     case UPDATE_USER:
       return action.user
     case GET_ALL_USERS:
-      return action.users
+      return {...state, users: action.users}
     default:
       return state
   }
