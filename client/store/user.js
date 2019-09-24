@@ -1,12 +1,11 @@
+/* eslint-disable max-params */
 import axios from 'axios'
 import history from '../history'
-import {UserHome} from '../components/user-home'
 
 /**
  * ACTION TYPES
  */
 const GET_USER = 'GET_USER'
-const GET_ALL_USERS = 'GET_ALL_USERS'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_USER = 'UPDATE_USER'
 
@@ -19,7 +18,6 @@ const defaultUser = {}
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
-const getAllUsers = users => ({type: GET_ALL_USERS, users})
 const removeUser = () => ({type: REMOVE_USER})
 const updateUser = user => ({type: UPDATE_USER, user})
 
@@ -30,15 +28,6 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
     dispatch(getUser(res.data || defaultUser))
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-export const fetchUsersInfo = () => async dispatch => {
-  try {
-    const res = await axios.get('/api/users/allInfo')
-    dispatch(getAllUsers(res.data || defaultUser))
   } catch (err) {
     console.error(err)
   }
@@ -110,8 +99,6 @@ export default function(state = defaultUser, action) {
       return defaultUser
     case UPDATE_USER:
       return action.user
-    case GET_ALL_USERS:
-      return {...state, users: action.users}
     default:
       return state
   }

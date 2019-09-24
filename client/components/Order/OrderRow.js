@@ -59,6 +59,7 @@ const OrderRow = ({order}) => {
           <tr>
             <th>Shipping Address</th>
             <th>Payment Method</th>
+            <th>Subtotal</th>
           </tr>
         </thead>
         <tbody>
@@ -76,7 +77,7 @@ const OrderRow = ({order}) => {
             <td>TBD</td>
             <td>
               <ul className="list-unstyled">
-                <li>Item(s) Subtotal: {formatter.format(orderSubtotal)}</li>
+                <li>{formatter.format(orderSubtotal)}</li>
               </ul>
             </td>
           </tr>

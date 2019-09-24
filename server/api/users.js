@@ -4,30 +4,22 @@ const {User} = require('../db/models')
 const HttpError = require('../utils/HttpError')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
-  try {
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email']
-    })
-    res.json(users)
-  } catch (err) {
-    next(err)
+const authorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.sendStatus(401)
   }
-})
+}
 
-router.get('/allInfo', async (req, res, next) => {
+router.get('/', authorizeAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
       attributes: [
         'id',
         'email',
         'address',
+        'address2',
         'city',
         'state',
         'zip',
@@ -35,7 +27,12 @@ router.get('/allInfo', async (req, res, next) => {
         'lastName'
       ]
     })
-    res.json(users)
+
+    if (users) {
+      res.json(users)
+    } else {
+      throw new HttpError(500, 'ERROR: failed to GET users')
+    }
   } catch (err) {
     next(err)
   }

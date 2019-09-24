@@ -165,7 +165,7 @@ class Navigation extends Component {
           <Nav>
             <Nav.Item className="text-light font-weight-bold">
               {this.props.isLoggedIn
-                ? `Hello, ${this.props.user.firstName}`
+                ? `Hello, ${this.props.user.firstName || 'Mystery User'}`
                 : 'Hello, Guest'}
             </Nav.Item>
           </Nav>
