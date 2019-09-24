@@ -94,7 +94,6 @@ User.findUserBySession = async function(sessionId) {
   })
 
   if (guestUser) {
-    console.log('found user by session: ', guestUser)
     return guestUser.id
   }
 
@@ -102,9 +101,7 @@ User.findUserBySession = async function(sessionId) {
 }
 
 User.findOrCreateUserBySession = async function(sessionId) {
-  console.log('did not find user. attempt to find user by session')
   const guestUser = await User.findUserBySession(sessionId)
-  console.log(sessionId)
   if (guestUser) {
     return guestUser
   } else {
@@ -119,6 +116,22 @@ User.findOrCreateUserBySession = async function(sessionId) {
   }
 
   return undefined
+}
+
+User.findAllUsers = function() {
+  return User.findAll({
+    attributes: [
+      'id',
+      'email',
+      'address',
+      'address2',
+      'city',
+      'state',
+      'zip',
+      'firstName',
+      'lastName'
+    ]
+  })
 }
 
 /**

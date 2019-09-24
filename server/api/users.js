@@ -4,48 +4,38 @@ const {User} = require('../db/models')
 const HttpError = require('../utils/HttpError')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+const authorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
+router.param('userId', async (req, res, next, userId) => {
   try {
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email']
-    })
-    res.json(users)
-  } catch (err) {
-    next(err)
+    const user = await User.findByPk(userId)
+    if (user) {
+      req.requestedUser = user
+      next()
+    } else {
+      throw new HttpError(500, 'ERROR: could not GET user')
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
-router.get('/allInfo', async (req, res, next) => {
+router.get('/', authorizeAdmin, async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: [
-        'id',
-        'email',
-        'address',
-        'city',
-        'state',
-        'zip',
-        'firstName',
-        'lastName'
-      ]
-    })
-    res.json(users)
+    const users = await User.findAllUsers()
+    if (users) {
+      res.json(users)
+    } else {
+      throw new HttpError(500, 'ERROR: failed to GET users')
+    }
   } catch (err) {
     next(err)
-  }
-})
-
-router.get('/updateUser', async (req, res, next) => {
-  try {
-    console.log('body', req.body)
-  } catch (err) {
-    console.log(err)
   }
 })
 
@@ -105,9 +95,26 @@ router.put('/me', async (req, res, next) => {
   }
 })
 
+router.delete('/:userId', authorizeAdmin, async (req, res, next) => {
+  try {
+    const deleteCount = await req.requestedUser.destroy()
+    if (deleteCount) {
+      // refetch remaining users and reply with the list of updated users...
+      const users = await User.findAllUsers()
+      if (users) {
+        res.status(200).json(users)
+      } else {
+        throw new HttpError(500, 'ERROR: failed to GET all users')
+      }
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.get('/:userId/orders', async (req, res, next) => {
   try {
-    const requestUserId = Number(req.params.userId)
+    const requestUserId = req.requestedUser.id
     if (!req.user || req.user.id !== requestUserId) {
       throw new HttpError(401, 'ERROR: user not logged in or invalid')
     }

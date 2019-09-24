@@ -7,13 +7,12 @@ import {
   Cart,
   Confirmation,
   Login,
+  Orders,
+  Products,
   Signup,
   SingleAnimal,
   UserHome,
-  Admin,
-  Orders,
-  Users,
-  Products
+  Users
 } from './components'
 import {me, fetchAnimals} from './store'
 import {fetchUserCart} from './store/actions/cart-actions'

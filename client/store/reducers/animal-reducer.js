@@ -41,6 +41,11 @@ const animalReducer = (prevState = [], action) => {
     //   return [...animalsWithoutUpdatedAnimal, action.animal];
     // }
 
+    case MODIFY_ANIMAL: {
+      const newState = prevState.filter(({id}) => id !== action.animal.id)
+      return [...newState, action.animal]
+    }
+
     default:
       return prevState
   }
