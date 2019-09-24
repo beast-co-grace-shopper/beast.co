@@ -18,6 +18,14 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/updateUser', async (req, res, next) => {
+  try {
+    console.log('body', req.body)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 router.put('/login', (req, res, next) => {
   User.findOne({
     where: {
