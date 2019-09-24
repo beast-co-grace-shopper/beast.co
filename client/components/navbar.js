@@ -83,6 +83,14 @@ class Navigation extends Component {
         this.props.history.push('/admin/orders')
         break
 
+      case 'adminManageProducts':
+        this.props.history.push('/admin/products')
+        break
+
+      case 'adminManageUsers':
+        this.props.history.push('/admin/users')
+        break
+
       default:
         console.error('ERROR: invalid menu option selected: ', eventKey)
     }
@@ -206,10 +214,10 @@ class Navigation extends Component {
                       <NavDropdown.Item eventKey="adminManageOrders">
                         Admin: Manage Orders
                       </NavDropdown.Item>
-                      <NavDropdown.Item eventKey="adminManageAccounts">
+                      <NavDropdown.Item eventKey="adminManageUsers">
                         Admin: Manage Accounts
                       </NavDropdown.Item>
-                      <NavDropdown.Item>
+                      <NavDropdown.Item eventKey="adminManageProducts">
                         Admin: Manage Products
                       </NavDropdown.Item>
                     </div>

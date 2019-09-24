@@ -10,7 +10,10 @@ import {
   Signup,
   SingleAnimal,
   UserHome,
-  Admin
+  Admin,
+  Orders,
+  Users,
+  Products
 } from './components'
 import {me, fetchAnimals} from './store'
 import {fetchUserCart} from './store/actions/cart-actions'
@@ -75,7 +78,9 @@ class Routes extends Component {
         {/* Routes placed here are only available after logging in */}
         {isLoggedIn && (
           <Switch>
-            <Route path="/admin/orders" component={Admin} />
+            <Route path="/admin/orders" component={Orders} />
+            <Route path="/admin/users" component={Users} />
+            <Route path="/admin/products" component={Products} />
             <Route path="/home" component={UserHome} />
             <Route path="/users/:userId/orders" component={AllOrders} />
           </Switch>
