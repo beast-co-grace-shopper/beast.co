@@ -68,6 +68,20 @@ router.get('/me', async (req, res, next) => {
   }
 })
 
+router.put('/me', async (req, res, next) => {
+  try {
+    const {email, address, city, state, zip, firstName, lastName} = req.body
+    await User.update(
+      {address, city, state, zip, firstName, lastName},
+      {where: {email}}
+    )
+    let currentUser = await User.findOne({where: {email}})
+    res.json(currentUser)
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 router.get('/:userId/orders', async (req, res, next) => {
   try {
     const requestUserId = Number(req.params.userId)
