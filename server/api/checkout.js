@@ -10,7 +10,8 @@ router.post('/charge', async (req, res) => {
       amount: Math.floor(req.body.amount * 10) / 10,
       currency: 'usd',
       description: 'Beast Co',
-      source: req.body.token
+      source: req.body.token,
+      receipt_email: req.body.email
     })
 
     res.status(204).json({status})
