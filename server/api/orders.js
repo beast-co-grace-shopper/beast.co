@@ -5,6 +5,14 @@ const HttpError = require('../utils/HttpError')
 
 module.exports = router
 
+const authorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
 router.param('id', async (req, res, next, id) => {
   try {
     const order = await Order.findByPk(id)
@@ -19,7 +27,7 @@ router.param('id', async (req, res, next, id) => {
   }
 })
 
-router.get('/allOrders', async (req, res, next) => {
+router.get('/allOrders', authorizeAdmin, async (req, res, next) => {
   try {
     const orders = await User.findAllOrders()
     res.send(orders)

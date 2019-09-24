@@ -4,6 +4,14 @@ const HttpError = require('../utils/HttpError')
 
 module.exports = router
 
+const authorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
 router.param('id', async (req, res, next, id) => {
   try {
     const animal = await Animal.findByPk(id)
@@ -35,7 +43,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', authorizeAdmin, async (req, res, next) => {
   try {
     console.log('req', req.body)
     const newAnimal = await Animal.create(req.body)
@@ -70,7 +78,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authorizeAdmin, async (req, res, next) => {
   try {
     const deleted = await Animal.destroy({where: {id: req.params.id}})
     if (deleted) {

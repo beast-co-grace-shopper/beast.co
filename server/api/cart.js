@@ -4,6 +4,14 @@ const HttpError = require('../utils/HttpError')
 const {Cart, Animal, User} = require('../db/models')
 module.exports = router
 
+const authorizeAdmin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
 router.use((req, res, next) => {
   if (!req.session.sessionId) {
     req.session.sessionId = req.session.id
@@ -43,7 +51,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-router.get('/all', async (req, res, next) => {
+router.get('/all', authorizeAdmin, async (req, res, next) => {
   try {
     const carts = await Cart.findAll({
       include: [{model: Animal}, {model: User}]
