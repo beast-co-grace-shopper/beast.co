@@ -8,7 +8,9 @@ import Form from 'react-bootstrap/Form'
 import {LinkContainer} from 'react-router-bootstrap'
 import AnimalCartCard from '../Animal/AnimalCartCard'
 import {fetchUserCart, submitCartOrder} from '../../store/'
-import {AddressForm, AddressCard} from '../'
+import {AddressForm, AddressCard, CheckoutForm} from '../'
+import {Elements, StripeProvider} from 'react-stripe-elements'
+//const stripe = require('stripe')('sk_test_Ulh5c2JG4xYsAt3BnShNbuLE00Z8sTOwKk');
 
 class Cart extends Component {
   constructor(props) {
@@ -19,12 +21,17 @@ class Cart extends Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleToken = this.handleToken.bind(this)
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+
+  handleToken(token, address) {
+    console.log({token, address})
   }
 
   handleSubmit() {
@@ -215,16 +222,45 @@ class Cart extends Component {
 
               <br />
               <br />
-
-              <LinkContainer to="/confirmation">
-                <a
+              {/* 
+              <LinkContainer to="/confirmation">                
+              <a
                   href="#"
                   className="btn btn-primary"
                   onClick={() => this.handleSubmit()}
                 >
                   Submit Order
                 </a>
-              </LinkContainer>
+              </LinkContainer> */}
+
+              {/* <div>
+                <StripeCheckout 
+                onClick={() => this.handleSubmit()}
+                stripeKey='pk_test_KdBW0S7vTyDxnkZoUO4JgOtq007yjuvILb'
+                token={this.handleToken}
+                amount={Number(Number(this.state.Shipping) + Number(cartCost) + Number(tax))*100}
+                />
+              </div> */}
+
+              <div>
+                <StripeProvider apiKey="pk_test_KdBW0S7vTyDxnkZoUO4JgOtq007yjuvILb">
+                  <div className="example">
+                    <Elements>
+                      <CheckoutForm
+                        cartSubmit={this.handleSubmit}
+                        amount={
+                          Number(
+                            Number(this.state.Shipping) +
+                              Number(cartCost) +
+                              Number(tax)
+                          ) * 100
+                        }
+                        name="test"
+                      />
+                    </Elements>
+                  </div>
+                </StripeProvider>
+              </div>
 
               <br />
               <br />
