@@ -19,8 +19,7 @@ import {
   logout,
   fetchCategories,
   filterAnimalCategories,
-  searchForAnimals,
-  fetchOrdersForUser
+  searchForAnimals
 } from '../store'
 
 const DEFAULT_CATEGORY_TITLE = 'All Animals'
@@ -48,7 +47,6 @@ class Navigation extends Component {
   }
 
   handleCategorize = eventKey => {
-    // this.props.filterAnimalCategories(eventKey)
     this.setState({
       categoryTitle: eventKey,
       searchString: ''
@@ -65,7 +63,6 @@ class Navigation extends Component {
   handleControlMenu = eventKey => {
     switch (eventKey) {
       case 'orders':
-        this.props.fetchOrdersForUser(this.props.loggedInUser)
         this.props.history.push(`/users/${this.props.loggedInUser}/orders`)
         break
 
@@ -152,6 +149,14 @@ class Navigation extends Component {
         {/* site navigation... */}
         <Navbar className="pt-0" bg="dark" variant="dark">
           {/* main menu items... */}
+          <Nav>
+            <Nav.Item className="text-light font-weight-bold">
+              {this.props.isLoggedIn
+                ? `Hello, ${this.props.userName}`
+                : 'Hello, Guest'}
+            </Nav.Item>
+          </Nav>
+
           <Nav className="border-right border-secondary ml-auto">
             <Nav.Item>
               <LinkContainer to="/animals">
@@ -209,7 +214,7 @@ class Navigation extends Component {
  */
 const mapState = state => ({
   isLoggedIn: !!state.user.id,
-  loggedInUser: state.user.id,
+  userName: state.user.firstName,
   categories: state.categories
 })
 
@@ -218,8 +223,7 @@ const mapDispatch = dispatch => ({
   fetchCategories: () => dispatch(fetchCategories()),
   filterAnimalCategories: category =>
     dispatch(filterAnimalCategories(category)),
-  searchForAnimals: animal => dispatch(searchForAnimals(animal)),
-  fetchOrdersForUser: userId => dispatch(fetchOrdersForUser(userId))
+  searchForAnimals: animal => dispatch(searchForAnimals(animal))
 })
 
 export default withRouter(connect(mapState, mapDispatch)(Navigation))
