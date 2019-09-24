@@ -16,7 +16,8 @@ class Cart extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      Shipping: 0.0
+      Shipping: 0.0,
+      email: this.props.user.email
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -255,6 +256,7 @@ class Cart extends Component {
                               Number(tax)
                           ) * 100
                         }
+                        email={this.state.email}
                         name="test"
                       />
                     </Elements>

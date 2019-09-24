@@ -8,9 +8,11 @@ import animals from './reducers/animal-reducer'
 import categories from './reducers/category-reducer'
 import cart from './reducers/cart-reducer'
 import orders from './reducers/order-reducer'
+import reviews from './reducers/review-reducer'
 
 const reducer = combineReducers({
   animals,
+  reviews,
   cart,
   categories,
   orders,
@@ -30,3 +32,4 @@ export * from './actions/category-actions'
 export * from './actions/cart-actions'
 export * from './actions/review-actions'
 export * from './actions/order-actions'
+export * from './actions/review-actions'
