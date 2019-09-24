@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 import {fetchAllOrders} from '../store'
 import {fetchUsersInfo} from '../store/user'
 import OrderRow from './Order/OrderRow'
+import AnimalCard from './Animal/AnimalCard'
 
 /**
  * COMPONENT
@@ -41,6 +42,11 @@ class Admin extends Component {
         <Col>
           <div className="card">
             <h5 className="card-header card-text">Manage Products</h5>
+            {this.props.animals && this.props.animals.length
+              ? this.props.animals.map(animal => (
+                  <AnimalCard animal={animal} key={animal.id} />
+                ))
+              : 'There are no animals in the database...'}
             <Button>Save</Button>
           </div>
         </Col>
@@ -54,7 +60,8 @@ class Admin extends Component {
  */
 const mapState = state => {
   return {
-    allOrders: state.orders.allOrders
+    allOrders: state.orders.allOrders,
+    animals: state.animals
   }
 }
 
