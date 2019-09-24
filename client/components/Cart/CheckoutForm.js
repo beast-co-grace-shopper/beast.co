@@ -21,7 +21,8 @@ class CheckoutForm extends Component {
 
     let chargeItem = {
       token: token.id,
-      amount: this.props.amount
+      amount: this.props.amount,
+      email: this.props.email
     }
 
     let response = await fetch('api/checkout/charge', {
