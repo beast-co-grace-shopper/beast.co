@@ -5,6 +5,7 @@ import axios from 'axios'
  */
 const GET_ALL_USERS = 'GET_ALL_USERS'
 const DESTROY_USER = 'DESTROY_USER'
+const MODIFY_USER = 'MODIFY_USER'
 
 /**
  * INITIAL STATE
@@ -16,6 +17,7 @@ const defaultUsers = []
  */
 const getAllUsers = users => ({type: GET_ALL_USERS, users})
 const destroyUser = users => ({type: DESTROY_USER, users})
+const modifyUser = users => ({type: MODIFY_USER, users})
 
 /**
  * THUNK CREATORS
@@ -39,6 +41,14 @@ export const deleteUser = userId => async dispatch => {
   }
 }
 
+export const putUser = (userId, updatedUser) => async dispatch => {
+  try {
+    const res = await axios.put(`/api/users/${userId}`, updatedUser)
+    dispatch(modifyUser(res.data))
+  } catch (error) {
+    console.error(error)
+  }
+}
 /**
  * REDUCER
  */
@@ -49,6 +59,10 @@ export default function(state = defaultUsers, action) {
 
     case DESTROY_USER:
       return action.users
+
+    case MODIFY_USER: {
+      return action.users
+    }
 
     default:
       return state

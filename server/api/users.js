@@ -95,6 +95,25 @@ router.put('/me', async (req, res, next) => {
   }
 })
 
+router.put('/:userId', authorizeAdmin, async (req, res, next) => {
+  try {
+    const updatedUser = await req.requestedUser.update(req.body)
+    if (updatedUser) {
+      // refetch  users and reply with the list of updated users...
+      const users = await User.findAllUsers()
+      if (users) {
+        res.status(200).json(users)
+      } else {
+        throw new HttpError(500, 'ERROR: failed to GET all users')
+      }
+    } else {
+      throw new HttpError(500, 'ERROR: failed to PUT user')
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.delete('/:userId', authorizeAdmin, async (req, res, next) => {
   try {
     const deleteCount = await req.requestedUser.destroy()

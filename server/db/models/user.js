@@ -129,8 +129,10 @@ User.findAllUsers = function() {
       'state',
       'zip',
       'firstName',
-      'lastName'
-    ]
+      'lastName',
+      'isAdmin'
+    ],
+    order: Sequelize.col('id')
   })
 }
 
