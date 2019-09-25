@@ -12,21 +12,28 @@ describe('User routes', () => {
   })
 
   describe('/api/users/', () => {
-    const codysEmail = 'cody@puppybook.com'
+    const codysEmail = 'lula@email.com'
 
     beforeEach(() => {
-      return User.create({
+      User.create({
         email: codysEmail
       })
     })
 
-    it('GET /api/users', async () => {
+    it('GET /api/users should fail due to privelage restrictions', async () => {
       const res = await request(app)
         .get('/api/users')
-        .expect(200)
-
-      expect(res.body).to.be.an('array')
-      expect(res.body[0].email).to.be.equal(codysEmail)
+        .expect(401)
     })
+    // expect(res.body).to.be.an('array')
+    // expect(res.body[0].email).to.be.equal(codysEmail)
+
+    // it('PUT /api/users/login', async () => {
+    //   const res = await request(app)
+    //   .put('/api/users/login', {email:codysEmail,password:123} )
+    //   .expect(201);
+    //   //console.log(res);
+    //   expect(res.body.email).to.be.equal(codysEmail)
+    // })
   }) // end describe('/api/users')
 }) // end describe('User routes')
