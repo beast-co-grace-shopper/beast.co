@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import {getAverageRating} from '../../store/'
 
-class AnimalCard extends Component {
+export class AnimalCard extends Component {
   constructor(props) {
     super(props)
     this.state = {}

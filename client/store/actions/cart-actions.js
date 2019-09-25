@@ -10,7 +10,7 @@ export const UPDATE_ANIMAL = 'UPDATE_ANIMAL'
 export const SUBMIT_ORDER = 'SUBMIT_ORDER'
 
 //ACTION CREATORS
-export const addAnimal = animal => ({
+export const cartAnimal = animal => ({
   type: ADD_ANIMAL_TO_CART,
   animal
 })
@@ -60,7 +60,7 @@ export const addAnimalToCart = (animal, user, quantity) => async dispatch => {
       quantity: quantity
     }
     const {data} = await axios.post('/api/cart', postAnimal)
-    dispatch(addAnimal(data))
+    dispatch(cartAnimal(data))
   } catch (error) {
     console.log(error)
   }
