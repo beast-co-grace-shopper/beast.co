@@ -21,11 +21,10 @@ import {
   filterAnimalCategories,
   searchForAnimals
 } from '../store'
-import NavbarBrand from 'react-bootstrap/NavbarBrand'
 
 const DEFAULT_CATEGORY_TITLE = 'All Animals'
 
-class Navigation extends Component {
+export class Navigation extends Component {
   constructor() {
     super()
 

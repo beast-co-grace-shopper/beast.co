@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
   try {
     const allCategorys = await Category.findAll()
     if (allCategorys) {
-      res.status(201).json(allCategorys)
+      res.status(200).json(allCategorys)
     } else {
       throw new HttpError(500, 'ERROR: failed to GET all Categorys')
     }
