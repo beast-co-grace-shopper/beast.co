@@ -64,7 +64,7 @@ class Confirmation extends Component {
                 </Row>
 
                 <Row className="card">
-                  <Row>
+                  <Row className="ml-2 mt-2 mb-2">
                     <Col>
                       <h5>Shipping</h5>
                       <div>
@@ -111,12 +111,11 @@ class Confirmation extends Component {
                 </Row>
               </Col>
 
-              <Col>
+              <Col className="mt-5">
                 <Image
-                  src="/images/beastCo.GIF"
+                  src="/images/beastCoNew.GIF"
                   style={{
-                    height: '300px',
-                    width: '300px',
+                    width: '100%',
                     margin: 'auto',
                     display: 'block'
                   }}

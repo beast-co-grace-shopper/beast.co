@@ -10,7 +10,6 @@ import AnimalCartCard from '../Animal/AnimalCartCard'
 import {fetchUserCart, submitCartOrder} from '../../store/'
 import {AddressForm, AddressCard, CheckoutForm} from '../'
 import {Elements, StripeProvider} from 'react-stripe-elements'
-//const stripe = require('stripe')('sk_test_Ulh5c2JG4xYsAt3BnShNbuLE00Z8sTOwKk');
 
 class Cart extends Component {
   constructor(props) {
@@ -219,29 +218,9 @@ class Cart extends Component {
                   </p>
                 </div>
               </div>
-              {/* formatter.format(2500) */}
 
               <br />
               <br />
-              {/* 
-              <LinkContainer to="/confirmation">                
-              <a
-                  href="#"
-                  className="btn btn-primary"
-                  onClick={() => this.handleSubmit()}
-                >
-                  Submit Order
-                </a>
-              </LinkContainer> */}
-
-              {/* <div>
-                <StripeCheckout 
-                onClick={() => this.handleSubmit()}
-                stripeKey='pk_test_KdBW0S7vTyDxnkZoUO4JgOtq007yjuvILb'
-                token={this.handleToken}
-                amount={Number(Number(this.state.Shipping) + Number(cartCost) + Number(tax))*100}
-                />
-              </div> */}
 
               <div>
                 <StripeProvider apiKey="pk_test_KdBW0S7vTyDxnkZoUO4JgOtq007yjuvILb">
