@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
 import AnimalReview from './AnimalReview'
-import {getReviewByAnimalId} from '../../store'
+import {getReviewByAnimalId, postReview} from '../../store'
 import StarRatingComponent from 'react-star-rating-component'
 import ReviewCard from './ReviewCard'
 
@@ -134,18 +134,24 @@ class SingleAnimal extends Component {
           <p />
         </div>
         {animal && animal.length === 1 ? (
-          <Container>
-            <Container className="card">
-              <Row>
-                <Col className="card" style={{border: 'none'}}>
+          <Container className="mb-5">
+            <Container className="card" style={{background: '#E4FDE1'}}>
+              <Row style={{background: '#E4FDE1'}}>
+                <Col
+                  className="card"
+                  style={{
+                    border: 'none',
+                    background: '#E4FDE1',
+                    color: '#E4FDE1'
+                  }}
+                >
                   <Image
                     src={animal[0].photo}
                     style={{
                       height: '220px',
                       width: '220px',
                       margin: 'auto',
-                      display: 'block',
-                      border: '10px grey'
+                      display: 'block'
                     }}
                     fluid
                     className="img-responsive center-block"
@@ -159,12 +165,17 @@ class SingleAnimal extends Component {
                   <div>
                     {animal[0].description &&
                     animal[0].description.length > 0 ? (
-                      <p>Description: {animal[0].description}</p>
+                      <p>
+                        <strong>Description: </strong>
+                        {animal[0].description}
+                      </p>
                     ) : (
                       ''
                     )}
                   </div>
-                  <p>Price: ${animal[0].cost}</p>
+                  <p>
+                    <strong>Price: </strong>${animal[0].cost}
+                  </p>
                 </Col>
                 <Col>
                   <Row>
@@ -172,7 +183,9 @@ class SingleAnimal extends Component {
                       <div>
                         <p />
                       </div>
-                      <p>Price:</p>
+                      <p>
+                        <strong>Price: </strong>
+                      </p>
                     </Col>
                     <Col>
                       <div>
@@ -187,7 +200,9 @@ class SingleAnimal extends Component {
                   </Row>
                   <Row>
                     <Col>
-                      <p>Quantity:</p>
+                      <p>
+                        <strong>Quantity: </strong>
+                      </p>
                     </Col>
                     <Col>
                       <input
@@ -264,16 +279,37 @@ class SingleAnimal extends Component {
                 </Col>
               </Row>
             </Container>
-            <Container className="card mt-3">
-              <Row>
+            <Container className="card mt-3" style={{background: '#E4FDE1'}}>
+              <Row className="mt-2">
                 <Col>
-                  <h1 className="card-title">Customer Reviews</h1>
+                  <h3 className="card-title">
+                    <strong>Customer Reviews</strong>
+                  </h3>
                   {reviewArr && reviewArr.length
                     ? reviewArr.map(el => (
                         <ReviewCard key={el.id} review={el} />
                       ))
                     : ''}
                 </Col>
+                {average > 3.5 ? (
+                  <Col className="mt-4 ml+4">
+                    <Row className="card">
+                      <Image
+                        src="/images/review.gif"
+                        style={{
+                          width: '20%',
+                          margin: 'auto',
+                          display: 'block'
+                        }}
+                        fluid
+                        className="img-responsive center-block"
+                      />
+                      <h3 style={{margin: 'auto'}}>CERTIFIED SATISFACTION</h3>
+                    </Row>
+                  </Col>
+                ) : (
+                  ''
+                )}
               </Row>
             </Container>
           </Container>
@@ -299,7 +335,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addAnimalToCart(animal, user, quantity)),
   updateAnimalInCart: (animal, user, quantity) =>
     dispatch(updateAnimalInCart(animal, user, quantity)),
-  getReviewByAnimalId: id => dispatch(getReviewByAnimalId(id))
+  getReviewByAnimalId: id => dispatch(getReviewByAnimalId(id)),
+  postReview: review => dispatch(postReview(review))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleAnimal)

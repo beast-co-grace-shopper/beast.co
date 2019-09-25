@@ -14,22 +14,20 @@ class ReviewCard extends Component {
   }
 
   render() {
-    console.log('this is review card,', this.props.review.user)
-
     return (
-      <Container className="card mt-3">
-        <Row>
-          <Col className="ml-3">
-            <Row>Title: {this.props.review.title}</Row>
-            <Row>Description: {this.props.review.description}</Row>
+      <Container className="card mt-3 mb-3">
+        <Row style={{background: '#F7FEF6'}}>
+          <Col className="ml-3 mb-2">
             <Row>
-              Rating:{' '}
+              <strong>{this.props.review.title}</strong>&emsp;
               <StarRatingComponent
                 name={this.props.review.id}
                 value={this.props.review.rating}
                 starCount={5}
               />
             </Row>
+            <Row>{this.props.review.description}</Row>
+            <Row />
           </Col>
         </Row>
       </Container>
